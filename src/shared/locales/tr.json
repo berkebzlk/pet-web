@@ -1,0 +1,9 @@
+{
+    "common": {
+        "welcome": "PetMet'e Hoşgeldiniz",
+        "description": "Evcil hayvanınızın sağlığı, basitleştirildi.",
+        "getStarted": "Başlayın",
+        "goToApp": "Uygulamaya Git",
+        "language": "Dil"
+    }
+}

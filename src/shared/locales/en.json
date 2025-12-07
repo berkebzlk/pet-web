@@ -1,0 +1,9 @@
+{
+    "common": {
+        "welcome": "Welcome to PetMet",
+        "description": "Your pet's health, simplified.",
+        "getStarted": "Get Started",
+        "goToApp": "Go to App",
+        "language": "Language"
+    }
+}
