@@ -5,5 +5,44 @@
         "getStarted": "Get Started",
         "goToApp": "Go to App",
         "language": "Language"
+    },
+    "landing": {
+        "hero": {
+            "title": "Everything Your Pet Needs, All in One Place.",
+            "subtitle": "Find a partner, track health, shop supplies, and join a loving community."
+        },
+        "features": {
+            "dating": {
+                "title": "Find a Partner",
+                "description": "Find the perfect match for your pet."
+            },
+            "health": {
+                "title": "Veterinary & Health",
+                "description": "Book appointments and track vaccinations."
+            },
+            "shop": {
+                "title": "Marketplace",
+                "description": "Order food and supplies from local shops."
+            },
+            "adoption": {
+                "title": "Adoption",
+                "description": "Give a forever home to a friend in need."
+            },
+            "lostFound": {
+                "title": "Lost & Found",
+                "description": "Community alert system for lost pets."
+            },
+            "calendar": {
+                "title": "Calendar",
+                "description": "Never miss a vaccination or grooming appointment."
+            }
+        },
+        "trust": {
+            "title": "Trusted by Thousands of Pet Owners",
+            "description": "Join our community to help lost pets find their way home.",
+            "stat1": "Active Users",
+            "stat2": "Pets Reunited",
+            "stat3": "Happy Matches"
+        }
     }
 }

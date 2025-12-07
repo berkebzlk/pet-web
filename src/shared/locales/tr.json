@@ -5,5 +5,44 @@
         "getStarted": "Başlayın",
         "goToApp": "Uygulamaya Git",
         "language": "Dil"
+    },
+    "landing": {
+        "hero": {
+            "title": "Evcil Dostunuz İçin Aradığınız Her Şey Tek Bir Yerde.",
+            "subtitle": "Eş bulun, sağlığını takip edin, alışveriş yapın ve sevgi dolu bir topluluğa katılın."
+        },
+        "features": {
+            "dating": {
+                "title": "Eş Bulma",
+                "description": "Evcil hayvanınız için mükemmel eşi bulun."
+            },
+            "health": {
+                "title": "Veteriner & Sağlık",
+                "description": "Randevu alın ve aşı takibini kolayca yapın."
+            },
+            "shop": {
+                "title": "Market",
+                "description": "Yerel mağazalardan mama ve ihtiyaçlarınızı sipariş edin."
+            },
+            "adoption": {
+                "title": "Sahiplendirme",
+                "description": "İhtiyacı olan bir dosta ömürlük yuva olun."
+            },
+            "lostFound": {
+                "title": "Kayıp & Buluntu",
+                "description": "Kayıp dostlarımız için topluluk bildirim sistemi."
+            },
+            "calendar": {
+                "title": "Takvim",
+                "description": "Aşı veya bakım randevularını asla kaçırmayın."
+            }
+        },
+        "trust": {
+            "title": "Binlerce Hayvan Severin Güvendiği Platform",
+            "description": "Kayıp dostlarımızın yuvalarına dönmesi için topluluğumuza katılın.",
+            "stat1": "Aktif Kullanıcı",
+            "stat2": "Kavuşan Dostlar",
+            "stat3": "Mutlu Eşleşme"
+        }
     }
 }
