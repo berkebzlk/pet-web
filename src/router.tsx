@@ -8,6 +8,10 @@ import { HomePage } from './modules/home/pages/HomePage';
 import { DashboardPage } from './modules/dashboard/pages/DashboardPage';
 import { LoginPage } from './modules/auth/pages/LoginPage';
 import { RegisterPage } from './modules/auth/pages/RegisterPage';
+import { ProfilePage } from './modules/profile/pages/ProfilePage';
+import { MatchPage } from './modules/match/pages/MatchPage';
+import { ServicesPage } from './modules/services/pages/ServicesPage';
+import { CarePage } from './modules/care/pages/CarePage';
 
 export const router = createBrowserRouter([
     {
@@ -49,6 +53,22 @@ export const router = createBrowserRouter([
                     {
                         index: true,
                         element: <DashboardPage />,
+                    },
+                    {
+                        path: 'profile',
+                        element: <ProfilePage />,
+                    },
+                    {
+                        path: 'match',
+                        element: <MatchPage />,
+                    },
+                    {
+                        path: 'services',
+                        element: <ServicesPage />,
+                    },
+                    {
+                        path: 'care',
+                        element: <CarePage />,
                     },
                 ],
             },

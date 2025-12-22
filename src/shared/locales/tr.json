@@ -70,5 +70,12 @@
         "logout": {
             "button": "Çıkış Yap"
         }
+    },
+    "nav": {
+        "home": "Ana Sayfa",
+        "match": "Eşleş",
+        "services": "Hizmetler",
+        "care": "Takvim",
+        "profile": "Profil"
     }
 }

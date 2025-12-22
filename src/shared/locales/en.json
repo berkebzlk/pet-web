@@ -70,5 +70,12 @@
         "logout": {
             "button": "Logout"
         }
+    },
+    "nav": {
+        "home": "Home",
+        "match": "Match",
+        "services": "Services",
+        "care": "Care",
+        "profile": "Profile"
     }
 }
