@@ -44,5 +44,31 @@
             "stat2": "Kavuşan Dostlar",
             "stat3": "Mutlu Eşleşme"
         }
+    },
+    "auth": {
+        "login": {
+            "title": "Tekrar Hoşgeldiniz",
+            "subtitle": "Hesabınıza giriş yapmak için email adresinizi girin",
+            "submit": "Giriş Yap",
+            "forgotPassword": "Şifremi Unuttum?",
+            "noAccount": "Hesabınız yok mu?",
+            "createAccount": "Hesap Oluştur"
+        },
+        "register": {
+            "title": "Hesap Oluştur",
+            "subtitle": "Hesabınızı oluşturmak için bilgilerinizi girin",
+            "submit": "Kayıt Ol",
+            "hasAccount": "Zaten hesabınız var mı?",
+            "login": "Giriş Yap"
+        },
+        "fields": {
+            "email": "E-posta",
+            "password": "Şifre",
+            "passwordConfirmation": "Şifre Tekrarı",
+            "name": "Ad Soyad"
+        },
+        "logout": {
+            "button": "Çıkış Yap"
+        }
     }
 }

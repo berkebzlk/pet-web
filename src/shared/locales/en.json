@@ -44,5 +44,31 @@
             "stat2": "Pets Reunited",
             "stat3": "Happy Matches"
         }
+    },
+    "auth": {
+        "login": {
+            "title": "Welcome Back",
+            "subtitle": "Enter your email to sign in to your account",
+            "submit": "Sign In",
+            "forgotPassword": "Forgot Password?",
+            "noAccount": "Don't have an account?",
+            "createAccount": "Create an account"
+        },
+        "register": {
+            "title": "Create an Account",
+            "subtitle": "Enter your information to create your account",
+            "submit": "Sign Up",
+            "hasAccount": "Already have an account?",
+            "login": "Sign In"
+        },
+        "fields": {
+            "email": "Email",
+            "password": "Password",
+            "passwordConfirmation": "Confirm Password",
+            "name": "Full Name"
+        },
+        "logout": {
+            "button": "Logout"
+        }
     }
 }
