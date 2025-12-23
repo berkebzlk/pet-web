@@ -77,5 +77,75 @@
         "services": "Hizmetler",
         "care": "Takvim",
         "profile": "Profil"
+    },
+    "match": {
+        "clearFilters": "Filtreleri Temizle",
+        "allTypes": "Tüm Türler",
+        "allGenders": "Tüm Cinsiyetler",
+        "loading": "Petler yükleniyor...",
+        "noPetsFound": "Kriterlerinize uygun pet bulunamadı.",
+        "clearAllFilters": "Tüm filtreleri temizle",
+        "noBio": "Biyografi yok",
+        "request": "Eşleşme İsteği"
+    },
+    "pet": {
+        "loading": "Yükleniyor...",
+        "notFound": "Pet bulunamadı",
+        "age": "Yaş",
+        "years": "Yaşında",
+        "weight": "Kilo",
+        "born": "Doğum",
+        "neutered": "Kısırlaştırılmış",
+        "yes": "Evet",
+        "no": "Hayır",
+        "about": "{{name}} Hakkında",
+        "owner": "Sahibi",
+        "petOwner": "Pet Sahibi",
+        "deleteConfirm": "Bu peti silmek istediğinize emin misiniz?",
+        "types": {
+            "dog": "Köpek",
+            "cat": "Kedi",
+            "bird": "Kuş",
+            "fish": "Balık",
+            "rodent": "Kemirgen",
+            "reptile": "Sürüngen",
+            "other": "Diğer"
+        },
+        "genders": {
+            "male": "Erkek",
+            "female": "Dişi"
+        }
+    },
+    "form": {
+        "photo": "Fotoğraf",
+        "name": "İsim",
+        "namePlaceholder": "Petinizin İsmi",
+        "type": "Tür",
+        "gender": "Cinsiyet",
+        "breed": "Irk",
+        "breedPlaceholder": "Golden Retriever, vb.",
+        "birthDate": "Doğum Tarihi",
+        "isNeutered": "Kısırlaştırılmış",
+        "delete": "Sil",
+        "deleting": "Siliniyor...",
+        "save": "Kaydet",
+        "saving": "Kaydediliyor...",
+        "update": "Güncelle",
+        "validation": {
+            "nameMin": "İsim en az 2 karakter olmalıdır",
+            "futureDate": "Doğum tarihi gelecekte olamaz"
+        }
+    },
+    "profile": {
+        "myPets": "Petlerim",
+        "addPet": "Pet Ekle",
+        "noPets": "Henüz pet eklenmemiş",
+        "addFirstPet": "İlk Petini Ekle",
+        "editPet": "Peti Düzenle",
+        "addNewPet": "Yeni Pet Ekle",
+        "settings": "Ayarlar",
+        "editProfile": "Profili Düzenle",
+        "logout": "Çıkış Yap",
+        "comingSoon": "Çok Yakında!"
     }
 }

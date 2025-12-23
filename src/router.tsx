@@ -9,7 +9,7 @@ import { DashboardPage } from './modules/dashboard/pages/DashboardPage';
 import { LoginPage } from './modules/auth/pages/LoginPage';
 import { RegisterPage } from './modules/auth/pages/RegisterPage';
 import { ProfilePage } from './modules/profile/pages/ProfilePage';
-import { MatchPage } from './modules/match/pages/MatchPage';
+import { matchRoutes } from './modules/match/routes';
 import { ServicesPage } from './modules/services/pages/ServicesPage';
 import { CarePage } from './modules/care/pages/CarePage';
 
@@ -29,14 +29,14 @@ export const router = createBrowserRouter([
         element: <AuthLayout />,
         children: [
             {
-                element: <GuestRoute />, // Wrapped auth routes with GuestRoute
+                element: <GuestRoute />,
                 children: [
                     {
-                        path: 'login', // Path is relative to /auth
+                        path: 'login',
                         element: <LoginPage />,
                     },
                     {
-                        path: 'register', // Path is relative to /auth
+                        path: 'register',
                         element: <RegisterPage />,
                     },
                 ],
@@ -58,10 +58,7 @@ export const router = createBrowserRouter([
                         path: 'profile',
                         element: <ProfilePage />,
                     },
-                    {
-                        path: 'match',
-                        element: <MatchPage />,
-                    },
+                    ...matchRoutes,
                     {
                         path: 'services',
                         element: <ServicesPage />,

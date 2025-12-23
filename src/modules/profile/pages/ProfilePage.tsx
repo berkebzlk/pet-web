@@ -9,7 +9,7 @@ import { Modal } from '@/shared/components/ui/modal';
 import { PetForm } from '@/modules/pet/components/PetForm';
 
 export function ProfilePage() {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     const { data, isLoading } = useMyPets();
     const { mutate: logout } = useLogout();
 
@@ -53,20 +53,20 @@ export function ProfilePage() {
             {/* My Pets Section */}
             <div>
                 <div className="flex items-center justify-between mb-4">
-                    <h3 className="font-semibold text-lg">My Pets</h3>
+                    <h3 className="font-semibold text-lg">{t('profile.myPets')}</h3>
                     <Button size="sm" className="gap-2" onClick={() => setIsAddPetOpen(true)}>
                         <Plus className="h-4 w-4" />
-                        Add Pet
+                        {t('profile.addPet')}
                     </Button>
                 </div>
 
                 {isLoading ? (
-                    <div className="text-center py-8 text-muted-foreground">Loading pets...</div>
+                    <div className="text-center py-8 text-muted-foreground">{t('match.loading')}</div>
                 ) : pets.length === 0 ? (
                     <div className="text-center py-12 bg-muted/20 rounded-xl border border-dashed">
-                        <p className="text-muted-foreground mb-4">No pets added yet</p>
+                        <p className="text-muted-foreground mb-4">{t('profile.noPets')}</p>
                         <Button variant="outline" onClick={() => setIsAddPetOpen(true)}>
-                            Add Your First Pet
+                            {t('profile.addFirstPet')}
                         </Button>
                     </div>
                 ) : (
@@ -93,7 +93,7 @@ export function ProfilePage() {
                                 <div className="flex-1 min-w-0">
                                     <h4 className="font-semibold truncate">{pet.name}</h4>
                                     <p className="text-sm text-muted-foreground truncate">
-                                        {pet.breed || pet.type} • {pet.age} y/o
+                                        {pet.breed || t(`pet.types.${pet.type}`)} • {pet.age} {t('pet.years')}
                                     </p>
                                 </div>
                             </div>
@@ -106,7 +106,7 @@ export function ProfilePage() {
             <Modal
                 isOpen={isAddPetOpen}
                 onClose={handleCloseModal}
-                title={selectedPet ? 'Edit Pet' : 'Add New Pet'}
+                title={selectedPet ? t('profile.editPet') : t('profile.addNewPet')}
             >
                 <PetForm onSuccess={handleCloseModal} initialData={selectedPet} />
             </Modal>
@@ -115,25 +115,46 @@ export function ProfilePage() {
             <Modal
                 isOpen={isSettingsOpen}
                 onClose={() => setIsSettingsOpen(false)}
-                title="Settings"
+                title={t('profile.settings')}
             >
-                <div className="space-y-2">
-                    <Button
-                        variant="outline"
-                        className="w-full justify-start gap-2"
-                        onClick={() => alert('Coming Soon!')}
-                    >
-                        <User className="h-4 w-4" />
-                        Edit Profile
-                    </Button>
-                    <Button
-                        variant="destructive"
-                        className="w-full justify-start gap-2"
-                        onClick={() => logout()}
-                    >
-                        <LogOut className="h-4 w-4" />
-                        Logout
-                    </Button>
+                <div className="space-y-4">
+                    {/* Language Switcher */}
+                    <div className="space-y-2">
+                        <label className="text-sm font-medium">{t('common.language')}</label>
+                        <div className="grid grid-cols-2 gap-2">
+                            <Button
+                                variant={i18n.language === 'tr' ? 'default' : 'outline'}
+                                onClick={() => i18n.changeLanguage('tr')}
+                            >
+                                Türkçe
+                            </Button>
+                            <Button
+                                variant={i18n.language === 'en' ? 'default' : 'outline'}
+                                onClick={() => i18n.changeLanguage('en')}
+                            >
+                                English
+                            </Button>
+                        </div>
+                    </div>
+
+                    <div className="space-y-2 pt-4 border-t">
+                        <Button
+                            variant="outline"
+                            className="w-full justify-start gap-2"
+                            onClick={() => alert('Coming Soon!')}
+                        >
+                            <User className="h-4 w-4" />
+                            {t('profile.editProfile')}
+                        </Button>
+                        <Button
+                            variant="destructive"
+                            className="w-full justify-start gap-2"
+                            onClick={() => logout()}
+                        >
+                            <LogOut className="h-4 w-4" />
+                            {t('profile.logout')}
+                        </Button>
+                    </div>
                 </div>
             </Modal>
         </div>

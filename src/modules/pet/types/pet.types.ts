@@ -25,6 +25,11 @@ export interface Pet {
     isNeutered: boolean;
     bio: string | null;
     image: string | null;
+    user?: {
+        id: number;
+        name: string;
+        email: string;
+    };
     createdAt: string;
     updatedAt: string;
 }
