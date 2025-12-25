@@ -14,7 +14,7 @@ export function MatchPage() {
 
     // Prepare params for the API
     const queryParams = {
-        filters: JSON.stringify(filters),
+        filters: filters,
     };
 
     const { data, isLoading } = usePets(queryParams);

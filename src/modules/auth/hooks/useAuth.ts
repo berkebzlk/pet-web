@@ -44,7 +44,8 @@ export const useLogout = () => {
         mutationFn: authService.logout,
         onSuccess: () => {
             localStorage.removeItem('access_token');
-            queryClient.setQueryData(['authUser'], null);
+            localStorage.removeItem('activePetId');
+            queryClient.clear(); // Clear all cache to prevent data leaking between users
             navigate('/auth/login');
         },
     });

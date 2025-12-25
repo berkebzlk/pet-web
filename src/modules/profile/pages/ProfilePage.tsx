@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useMyPets } from '@/modules/pet/hooks/usePets';
-import { useLogout } from '@/modules/auth/hooks/useAuth';
+import { useLogout, useAuthUser } from '@/modules/auth/hooks/useAuth';
 import { Button } from '@/shared/components/ui/button';
 import { Plus, Settings, LogOut, User } from 'lucide-react';
 import type { Pet } from '@/modules/pet/types/pet.types';
@@ -11,6 +11,7 @@ import { PetForm } from '@/modules/pet/components/PetForm';
 export function ProfilePage() {
     const { t, i18n } = useTranslation();
     const { data, isLoading } = useMyPets();
+    const { data: user } = useAuthUser();
     const { mutate: logout } = useLogout();
 
     const pets = data?.data?.data || [];
@@ -39,14 +40,14 @@ export function ProfilePage() {
                 </Button>
             </div>
 
-            {/* User Info (Mocked for now) */}
+            {/* User Info */}
             <div className="flex items-center gap-4 p-4 bg-card rounded-xl border shadow-sm">
                 <div className="h-16 w-16 rounded-full bg-primary/10 flex items-center justify-center text-2xl font-bold text-primary">
-                    B
+                    {user?.name?.[0]?.toUpperCase() || 'U'}
                 </div>
                 <div>
-                    <h2 className="font-semibold text-lg">Berke</h2>
-                    <p className="text-sm text-muted-foreground">berke@example.com</p>
+                    <h2 className="font-semibold text-lg">{user?.name || 'User'}</h2>
+                    <p className="text-sm text-muted-foreground">{user?.email || 'email@example.com'}</p>
                 </div>
             </div>
 

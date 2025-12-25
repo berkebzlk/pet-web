@@ -1,18 +1,30 @@
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { usePet } from '@/modules/pet/hooks/usePets';
+import { useCreateMatch } from '../hooks/useMatch';
 import { Button } from '@/shared/components/ui/button';
-import { ArrowLeft, Heart, User, Calendar, Ruler, Info } from 'lucide-react';
+import { Heart, User, Calendar, Ruler, Info } from 'lucide-react';
 import { Gender } from '@/modules/pet/types/pet.types';
 import { PageHeader } from '@/shared/components/layout/PageHeader';
+import { toast } from 'sonner';
+import { useActivePet } from '@/modules/pet/context/ActivePetContext';
 
 export function PetDetailPage() {
     const { id } = useParams();
-    const navigate = useNavigate();
     const { t } = useTranslation();
     const { data, isLoading } = usePet(Number(id));
+    const { activePet } = useActivePet();
+    const { mutate: createMatch, isPending: isMatching } = useCreateMatch();
 
     const pet = data?.data;
+
+    const handleMatchClick = () => {
+        if (!activePet) {
+            toast.error(t('match.noActivePet'));
+            return;
+        }
+        createMatch({ initiator_pet_id: activePet.id, target_pet_id: pet.id });
+    };
 
     if (isLoading) {
         return <div className="flex justify-center p-8">{t('pet.loading')}</div>;
@@ -116,11 +128,16 @@ export function PetDetailPage() {
                 )}
 
                 {/* Action Button */}
-                <Button className="w-full h-12 text-lg gap-2 shadow-lg shadow-primary/20">
-                    <Heart className="h-5 w-5 fill-current" />
-                    {t('match.request')}
+                <Button
+                    className="w-full h-12 text-lg gap-2 shadow-lg shadow-primary/20"
+                    onClick={handleMatchClick}
+                    disabled={isMatching || !activePet || activePet.id === pet.id}
+                >
+                    <Heart className={`h-5 w-5 ${isMatching ? 'animate-pulse' : 'fill-current'}`} />
+                    {isMatching ? t('pet.loading') : t('match.request')}
                 </Button>
             </div>
         </div>
     );
 }
+

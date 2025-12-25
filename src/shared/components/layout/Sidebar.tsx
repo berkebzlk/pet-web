@@ -4,6 +4,7 @@ import { Home, Heart, Store, Calendar, User, LogOut } from 'lucide-react';
 import { cn } from '@/shared/lib/utils';
 import { Button } from '@/shared/components/ui/button';
 import { useLogout } from '@/modules/auth/hooks/useAuth';
+import { PetSwitcher } from '@/modules/pet/components/PetSwitcher';
 
 export function Sidebar() {
     const { t } = useTranslation();
@@ -42,6 +43,10 @@ export function Sidebar() {
         <aside className="w-64 border-r bg-card hidden md:flex flex-col fixed inset-y-0 z-50">
             <div className="h-16 flex items-center px-6 border-b">
                 <span className="font-bold text-xl text-primary">PetMet</span>
+            </div>
+
+            <div className="p-4 pb-0">
+                <PetSwitcher />
             </div>
 
             <nav className="flex-1 p-4 space-y-2 overflow-y-auto">

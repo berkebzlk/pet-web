@@ -9,6 +9,7 @@ import { DashboardPage } from './modules/dashboard/pages/DashboardPage';
 import { LoginPage } from './modules/auth/pages/LoginPage';
 import { RegisterPage } from './modules/auth/pages/RegisterPage';
 import { ProfilePage } from './modules/profile/pages/ProfilePage';
+import { AddPetPage } from './modules/pet/pages/AddPetPage';
 import { matchRoutes } from './modules/match/routes';
 import { ServicesPage } from './modules/services/pages/ServicesPage';
 import { CarePage } from './modules/care/pages/CarePage';
@@ -57,6 +58,10 @@ export const router = createBrowserRouter([
                     {
                         path: 'profile',
                         element: <ProfilePage />,
+                    },
+                    {
+                        path: 'pets/new',
+                        element: <AddPetPage />,
                     },
                     ...matchRoutes,
                     {

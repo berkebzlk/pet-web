@@ -86,9 +86,16 @@
         "noPetsFound": "Kriterlerinize uygun pet bulunamadı.",
         "clearAllFilters": "Tüm filtreleri temizle",
         "noBio": "Biyografi yok",
-        "request": "Eşleşme İsteği"
+        "request": "Eşleşme İsteği",
+        "requestSent": "Eşleşme isteği başarıyla gönderildi!",
+        "requestFailed": "Eşleşme isteği gönderilemedi.",
+        "selectPet": "Evcil hayvanını seç",
+        "selectPetDescription": "Hangi evcil hayvanın için eşleşme isteği göndermek istersin?",
+        "noPets": "Henüz hiç evcil hayvanın yok. Lütfen önce bir evcil hayvan ekle.",
+        "sendRequest": "İstek Gönder"
     },
     "pet": {
+        "add": "Pet Ekle",
         "loading": "Yükleniyor...",
         "notFound": "Pet bulunamadı",
         "age": "Yaş",

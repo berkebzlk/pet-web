@@ -86,9 +86,16 @@
         "noPetsFound": "No pets found matching your criteria.",
         "clearAllFilters": "Clear all filters",
         "noBio": "No bio available",
-        "request": "Match Request"
+        "request": "Match Request",
+        "requestSent": "Match request sent successfully!",
+        "requestFailed": "Failed to send match request.",
+        "selectPet": "Select your pet",
+        "selectPetDescription": "Which of your pets would you like to match with this pet?",
+        "noPets": "You don't have any pets yet. Please add a pet first.",
+        "sendRequest": "Send Request"
     },
     "pet": {
+        "add": "Add Pet",
         "loading": "Loading...",
         "notFound": "Pet not found",
         "age": "Age",
