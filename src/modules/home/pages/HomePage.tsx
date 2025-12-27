@@ -1,12 +1,13 @@
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/shared/components/ui/button';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Section } from '@/shared/components/ui/section';
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from '@/shared/components/ui/card';
-import { Heart, Stethoscope, ShoppingBag, Home, Search, Calendar } from 'lucide-react';
+import { Heart, Stethoscope, ShoppingBag, Home, Search, Calendar, Inbox } from 'lucide-react';
 
 export function HomePage() {
     const { t } = useTranslation();
+    const navigate = useNavigate();
 
     const features = [
         {
@@ -49,6 +50,19 @@ export function HomePage() {
 
     return (
         <div className="flex flex-col min-h-screen">
+            {/* Header */}
+            <div className="flex items-center justify-between p-4 md:hidden absolute top-0 left-0 right-0 z-10">
+                <span className="font-bold text-xl text-primary">PetMet</span>
+                <Button variant="ghost" size="icon" onClick={() => navigate('/app/matches')}>
+                    <Inbox className="h-6 w-6" />
+                </Button>
+            </div>
+            <div className="hidden md:flex items-center justify-end p-4 absolute top-0 right-0 z-10">
+                <Button variant="ghost" size="icon" onClick={() => navigate('/app/matches')}>
+                    <Inbox className="h-6 w-6" />
+                </Button>
+            </div>
+
             {/* Hero Section */}
             <Section className="relative overflow-hidden bg-background pt-24 pb-32 md:pt-32 md:pb-48">
                 {/* Gradient Blobs */}
