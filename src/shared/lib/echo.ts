@@ -9,7 +9,9 @@ declare global {
 }
 
 window.Pusher = Pusher;
-Pusher.logToConsole = true; // Enable logging to see connection status
+// Pusher.logToConsole = true;
+
+import { api } from './api';
 
 export const echo = new Echo({
     broadcaster: 'reverb',
@@ -19,4 +21,20 @@ export const echo = new Echo({
     wssPort: import.meta.env.VITE_REVERB_PORT ?? 8080,
     forceTLS: (import.meta.env.VITE_REVERB_SCHEME ?? 'https') === 'https',
     enabledTransports: ['ws', 'wss'],
+    authorizer: (channel: any, _options: any) => {
+        return {
+            authorize: (socketId: any, callback: any) => {
+                api.post('/broadcasting/auth', {
+                    socket_id: socketId,
+                    channel_name: channel.name
+                })
+                    .then(response => {
+                        callback(false, response.data);
+                    })
+                    .catch(error => {
+                        callback(true, error);
+                    });
+            }
+        };
+    },
 });

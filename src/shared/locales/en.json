@@ -4,7 +4,9 @@
         "description": "Your pet's health, simplified.",
         "getStarted": "Get Started",
         "goToApp": "Go to App",
-        "language": "Language"
+        "language": "Language",
+        "view": "View",
+        "save": "Save"
     },
     "landing": {
         "hero": {
@@ -92,7 +94,12 @@
         "selectPet": "Select your pet",
         "selectPetDescription": "Which of your pets would you like to match with this pet?",
         "noPets": "You don't have any pets yet. Please add a pet first.",
-        "sendRequest": "Send Request"
+        "requestReceived": "{{petName}} wants to be friends with you!",
+        "sendRequest": "Send Request",
+        "myMatches": "My Matches",
+        "selectPetFirst": "Please select a pet first.",
+        "noPendingRequests": "No pending match requests.",
+        "requestSentButton": "Request Sent"
     },
     "pet": {
         "add": "Add Pet",

@@ -1,5 +1,5 @@
 import { api } from '@/shared/lib/api';
-import { CreatePetDTO, Pet, UpdatePetDTO } from '../types/pet.types';
+import type { CreatePetDTO, UpdatePetDTO } from '../types/pet.types';
 
 export const petService = {
     getAll: async (params?: any) => {

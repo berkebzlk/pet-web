@@ -14,63 +14,70 @@ import { matchRoutes } from './modules/match/routes';
 import { ServicesPage } from './modules/services/pages/ServicesPage';
 import { CarePage } from './modules/care/pages/CarePage';
 
+import { RootLayout } from './shared/components/layout/RootLayout';
+
 export const router = createBrowserRouter([
     {
-        path: '/',
-        element: <LandingLayout />,
+        element: <RootLayout />,
         children: [
             {
-                index: true,
-                element: <HomePage />,
-            },
-        ],
-    },
-    {
-        path: '/auth',
-        element: <AuthLayout />,
-        children: [
-            {
-                element: <GuestRoute />,
-                children: [
-                    {
-                        path: 'login',
-                        element: <LoginPage />,
-                    },
-                    {
-                        path: 'register',
-                        element: <RegisterPage />,
-                    },
-                ],
-            },
-        ],
-    },
-    {
-        path: '/app',
-        element: <ProtectedRoute />,
-        children: [
-            {
-                element: <AppLayout />,
+                path: '/',
+                element: <LandingLayout />,
                 children: [
                     {
                         index: true,
-                        element: <DashboardPage />,
+                        element: <HomePage />,
                     },
+                ],
+            },
+            {
+                path: '/auth',
+                element: <AuthLayout />,
+                children: [
                     {
-                        path: 'profile',
-                        element: <ProfilePage />,
+                        element: <GuestRoute />,
+                        children: [
+                            {
+                                path: 'login',
+                                element: <LoginPage />,
+                            },
+                            {
+                                path: 'register',
+                                element: <RegisterPage />,
+                            },
+                        ],
                     },
+                ],
+            },
+            {
+                path: '/app',
+                element: <ProtectedRoute />,
+                children: [
                     {
-                        path: 'pets/new',
-                        element: <AddPetPage />,
-                    },
-                    ...matchRoutes,
-                    {
-                        path: 'services',
-                        element: <ServicesPage />,
-                    },
-                    {
-                        path: 'care',
-                        element: <CarePage />,
+                        element: <AppLayout />,
+                        children: [
+                            {
+                                index: true,
+                                element: <DashboardPage />,
+                            },
+                            {
+                                path: 'profile',
+                                element: <ProfilePage />,
+                            },
+                            {
+                                path: 'pets/new',
+                                element: <AddPetPage />,
+                            },
+                            ...matchRoutes,
+                            {
+                                path: 'services',
+                                element: <ServicesPage />,
+                            },
+                            {
+                                path: 'care',
+                                element: <CarePage />,
+                            },
+                        ],
                     },
                 ],
             },

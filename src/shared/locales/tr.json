@@ -4,7 +4,9 @@
         "description": "Evcil hayvanınızın sağlığı, basitleştirildi.",
         "getStarted": "Başlayın",
         "goToApp": "Uygulamaya Git",
-        "language": "Dil"
+        "language": "Dil",
+        "view": "Görüntüle",
+        "save": "Kaydet"
     },
     "landing": {
         "hero": {
@@ -92,7 +94,12 @@
         "selectPet": "Evcil hayvanını seç",
         "selectPetDescription": "Hangi evcil hayvanın için eşleşme isteği göndermek istersin?",
         "noPets": "Henüz hiç evcil hayvanın yok. Lütfen önce bir evcil hayvan ekle.",
-        "sendRequest": "İstek Gönder"
+        "requestReceived": "{{petName}} seninle arkadaş olmak istiyor!",
+        "sendRequest": "İstek Gönder",
+        "myMatches": "Gelen İstekler",
+        "selectPetFirst": "Lütfen önce bir evcil hayvan seçin.",
+        "noPendingRequests": "Bekleyen eşleşme isteği yok.",
+        "requestSentButton": "İstek Gönderildi"
     },
     "pet": {
         "add": "Pet Ekle",

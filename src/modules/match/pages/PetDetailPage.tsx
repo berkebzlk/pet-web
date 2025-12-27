@@ -2,8 +2,9 @@ import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { usePet } from '@/modules/pet/hooks/usePets';
 import { useCreateMatch } from '../hooks/useMatch';
+import { useCheckMatchStatus } from '../hooks/useMatches';
 import { Button } from '@/shared/components/ui/button';
-import { Heart, User, Calendar, Ruler, Info } from 'lucide-react';
+import { Heart, Calendar, Ruler, Info } from 'lucide-react';
 import { Gender } from '@/modules/pet/types/pet.types';
 import { PageHeader } from '@/shared/components/layout/PageHeader';
 import { toast } from 'sonner';
@@ -17,6 +18,9 @@ export function PetDetailPage() {
     const { mutate: createMatch, isPending: isMatching } = useCreateMatch();
 
     const pet = data?.data;
+
+    // Check match status
+    const { data: existingMatch, isLoading: isLoadingMatch } = useCheckMatchStatus(activePet?.id, pet?.id);
 
     const handleMatchClick = () => {
         if (!activePet) {
@@ -131,10 +135,10 @@ export function PetDetailPage() {
                 <Button
                     className="w-full h-12 text-lg gap-2 shadow-lg shadow-primary/20"
                     onClick={handleMatchClick}
-                    disabled={isMatching || !activePet || activePet.id === pet.id}
+                    disabled={isMatching || !activePet || activePet.id === pet.id || !!existingMatch || isLoadingMatch}
                 >
-                    <Heart className={`h-5 w-5 ${isMatching ? 'animate-pulse' : 'fill-current'}`} />
-                    {isMatching ? t('pet.loading') : t('match.request')}
+                    <Heart className={`h-5 w-5 ${existingMatch ? 'fill-current' : isMatching ? 'animate-pulse' : ''}`} />
+                    {existingMatch ? t('match.requestSentButton') : isMatching ? t('pet.loading') : t('match.request')}
                 </Button>
             </div>
         </div>

@@ -1,22 +1,26 @@
-export enum PetType {
-    DOG = 'dog',
-    CAT = 'cat',
-    BIRD = 'bird',
-    FISH = 'fish',
-    RODENT = 'rodent',
-    REPTILE = 'reptile',
-    OTHER = 'other',
-}
+export const PetType = {
+    DOG: 'dog',
+    CAT: 'cat',
+    BIRD: 'bird',
+    FISH: 'fish',
+    RODENT: 'rodent',
+    REPTILE: 'reptile',
+    OTHER: 'other',
+} as const;
 
-export enum Gender {
-    MALE = 'male',
-    FEMALE = 'female',
-}
+export type PetType = typeof PetType[keyof typeof PetType];
+
+export const Gender = {
+    MALE: 'male',
+    FEMALE: 'female',
+} as const;
+
+export type Gender = typeof Gender[keyof typeof Gender];
 
 export interface Pet {
     id: number;
     name: string;
-    type: string;
+    type: PetType;
     breed: string | null;
     gender: Gender;
     birthDate: string;
@@ -36,7 +40,7 @@ export interface Pet {
 
 export interface CreatePetDTO {
     name: string;
-    type: string;
+    type: PetType;
     breed?: string;
     gender: Gender;
     birthDate: string;
