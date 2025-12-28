@@ -51,26 +51,27 @@ export function LoginPage() {
                         )}
                     </div>
                     <div className="space-y-2">
-                        <div className="flex items-center justify-between">
-                            <label htmlFor="password" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                                {t('auth.fields.password')}
-                            </label>
-                            <Link
-                                to="/auth/forgot-password"
-                                className="text-sm font-medium text-brand-teal hover:underline"
-                            >
-                                {t('auth.login.forgotPassword')}
-                            </Link>
-                        </div>
+                        <label htmlFor="password" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                            {t('auth.fields.password')}
+                        </label>
                         <input
                             id="password"
                             type="password"
+                            placeholder="********"
                             className={`flex h-10 w-full rounded-md border bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 ${errors.password ? 'border-destructive' : 'border-input'}`}
                             {...register('password')}
                         />
                         {errors.password && (
                             <p className="text-sm text-destructive">{t(errors.password.message || 'auth.validation.required')}</p>
                         )}
+                    </div>
+                    <div className="flex items-center justify-end">
+                        <Link
+                            to="/auth/forgot-password"
+                            className="text-sm font-medium text-brand-teal hover:underline"
+                        >
+                            {t('auth.login.forgotPassword')}
+                        </Link>
                     </div>
                     <Button type="submit" className="w-full bg-brand-coral hover:bg-brand-coral/90 text-white" disabled={isPending}>
                         {isPending ? t('common.loading') : t('auth.login.submit')}
