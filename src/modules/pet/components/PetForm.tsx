@@ -10,6 +10,10 @@ import { useCreatePet, useUpdatePet, useDeletePet } from '@/modules/pet/hooks/us
 
 const petSchema = z.object({
     name: z.string().min(2, 'Name must be at least 2 characters'),
+    username: z.string()
+        .min(3, 'Username must be at least 3 characters')
+        .max(30, 'Username must be at most 30 characters')
+        .regex(/^[a-zA-Z0-9_.]+$/, 'Username can only contain letters, numbers, dots and underscores'),
     type: z.nativeEnum(PetType),
     breed: z.string().optional().nullable(),
     gender: z.nativeEnum(Gender),
@@ -28,9 +32,11 @@ const petSchema = z.object({
 type PetFormOutput = z.infer<typeof petSchema>;
 type PetFormInput = z.input<typeof petSchema>;
 
+
 interface PetFormProps {
     onSuccess: () => void;
     initialData?: Pet | null;
+
 }
 
 export function PetForm({ onSuccess, initialData }: PetFormProps) {
@@ -49,7 +55,9 @@ export function PetForm({ onSuccess, initialData }: PetFormProps) {
     } = useForm<PetFormInput, any, PetFormOutput>({
         resolver: zodResolver(petSchema),
         defaultValues: {
-            type: PetType.DOG,
+            name: initialData?.name || '',
+            username: initialData?.username || '',
+            type: initialData?.type || PetType.DOG,
             gender: Gender.MALE,
             isNeutered: false,
         },
@@ -59,6 +67,7 @@ export function PetForm({ onSuccess, initialData }: PetFormProps) {
         if (initialData) {
             reset({
                 name: initialData.name,
+                username: initialData.username,
                 type: initialData.type as PetType,
                 breed: initialData.breed,
                 gender: initialData.gender,
@@ -72,6 +81,8 @@ export function PetForm({ onSuccess, initialData }: PetFormProps) {
                 type: PetType.DOG,
                 gender: Gender.MALE,
                 isNeutered: false,
+                bio: '',
+                image: undefined
             });
         }
     }, [initialData, reset]);
@@ -87,34 +98,28 @@ export function PetForm({ onSuccess, initialData }: PetFormProps) {
     };
 
     const onSubmit = (data: PetFormOutput) => {
-        const payload: any = { ...data };
-        if (data.image && data.image.length > 0) {
-            payload.image = data.image[0];
-        } else {
-            delete payload.image;
-        }
+        const payload: any = {
+            ...data,
+            image: data.image?.[0] || undefined,
+        };
 
         if (initialData) {
-            updatePet(
-                { id: initialData.id, data: payload },
-                {
-                    onSuccess: () => {
-                        onSuccess();
-                    },
+            updatePet({ id: initialData.id, data: payload }, {
+                onSuccess: () => {
+                    onSuccess();
                 }
-            );
+            });
         } else {
             createPet(payload, {
                 onSuccess: () => {
                     onSuccess();
-                },
+                }
             });
         }
     };
 
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-            {/* Image Upload (Simple) */}
             <div className="space-y-2">
                 <label className="text-sm font-medium">{t('form.photo')}</label>
                 <input
@@ -125,14 +130,26 @@ export function PetForm({ onSuccess, initialData }: PetFormProps) {
                 />
             </div>
 
-            <div className="space-y-2">
-                <label className="text-sm font-medium">{t('form.name')}</label>
-                <input
-                    className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                    {...register('name')}
-                    placeholder={t('form.namePlaceholder')}
-                />
-                {errors.name && <p className="text-sm text-destructive">{errors.name.message}</p>}
+            <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                    <label className="text-sm font-medium">Username</label>
+                    <input
+                        className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                        {...register('username')}
+                        placeholder="rex_the_dog"
+                    />
+                    {errors.username && <p className="text-sm text-destructive">{errors.username.message}</p>}
+                </div>
+
+                <div className="space-y-2">
+                    <label className="text-sm font-medium">{t('form.name')}</label>
+                    <input
+                        className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                        {...register('name')}
+                        placeholder={t('form.namePlaceholder')}
+                    />
+                    {errors.name && <p className="text-sm text-destructive">{errors.name.message}</p>}
+                </div>
             </div>
 
             <div className="grid grid-cols-2 gap-4">
@@ -171,16 +188,35 @@ export function PetForm({ onSuccess, initialData }: PetFormProps) {
                 />
             </div>
 
+            <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                    <label className="text-sm font-medium">{t('form.birthDate')}</label>
+                    <input
+                        type="date"
+                        className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                        {...register('birthDate')}
+                    />
+                    {errors.birthDate && (
+                        <p className="text-sm text-destructive">{errors.birthDate.message}</p>
+                    )}
+                </div>
+                <div className="space-y-2">
+                    <label className="text-sm font-medium">Kilo (kg)</label>
+                    <input
+                        type="number"
+                        step="0.1"
+                        className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                        {...register('weight')}
+                    />
+                </div>
+            </div>
+
             <div className="space-y-2">
-                <label className="text-sm font-medium">{t('form.birthDate')}</label>
-                <input
-                    type="date"
-                    className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                    {...register('birthDate')}
+                <label className="text-sm font-medium">Biyografi</label>
+                <textarea
+                    className="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                    {...register('bio')}
                 />
-                {errors.birthDate && (
-                    <p className="text-sm text-destructive">{errors.birthDate.message}</p>
-                )}
             </div>
 
             <div className="flex items-center space-x-2">
@@ -211,6 +247,6 @@ export function PetForm({ onSuccess, initialData }: PetFormProps) {
                     {isPending ? t('form.saving') : initialData ? t('form.update') : t('form.save')}
                 </Button>
             </div>
-        </form>
+        </form >
     );
 }

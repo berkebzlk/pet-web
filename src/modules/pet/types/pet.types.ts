@@ -29,6 +29,9 @@ export interface Pet {
     isNeutered: boolean;
     bio: string | null;
     image: string | null;
+    username: string;
+    postsCount: number;
+    matchCount: number;
     user?: {
         id: number;
         name: string;
@@ -40,6 +43,7 @@ export interface Pet {
 
 export interface CreatePetDTO {
     name: string;
+    username: string;
     type: PetType;
     breed?: string;
     gender: Gender;
