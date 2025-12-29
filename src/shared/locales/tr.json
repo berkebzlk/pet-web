@@ -101,7 +101,48 @@
         "noPendingRequests": "Bekleyen eşleşme isteği yok.",
         "requestSentButton": "İstek Gönderildi"
     },
+    "settings": {
+        "title": "Ayarlar",
+        "account": "Hesabın",
+        "application": "Uygulama",
+        "language": "Dil",
+        "appLanguage": "{{appName}} Dili",
+        "searchLanguage": "Ara",
+        "accountsCenter": "Hesaplar Merkezi",
+        "interactions": "Etkileşimler",
+        "saved": "Kaydedilenler",
+        "archive": "Arşiv",
+        "privacy": "İçeriklerini kimler görebilir?",
+        "accountPrivacy": "Hesap Gizliliği",
+        "closeFriends": "Yakın Arkadaşlar",
+        "blocked": "Engellenenler",
+        "hideStory": "Hikaye ve canlı videoları gizle",
+        "addPet": "Pet Ekle",
+        "logout": "Çıkış Yap"
+    },
+    "accountsCenter": {
+        "title": "Hesaplar Merkezi",
+        "pets": "Petler",
+        "petsTitle": "PETLER",
+        "accountSettings": "Hesap Ayarları",
+        "passwordSecurity": "Şifre ve güvenlik",
+        "personalDetails": "Kişisel detaylar",
+        "noPets": "Henüz hiç pet eklemediniz."
+    },
+    "personalDetails": {
+        "title": "Kişisel Detaylar",
+        "name": "İsim",
+        "email": "E-posta",
+        "emailDisabled": "E-posta adresi şu an değiştirilemez.",
+        "save": "Kaydet",
+        "saving": "Kaydediliyor...",
+        "success": "Kişisel detaylar güncellendi",
+        "error": "Güncelleme başarısız oldu"
+    },
     "pet": {
+        "title": "Petler",
+        "yourPets": "PETLERİN",
+        "editTitle": "Pet Düzenle",
         "add": "Pet Ekle",
         "loading": "Yükleniyor...",
         "notFound": "Pet bulunamadı",
@@ -116,6 +157,8 @@
         "owner": "Sahibi",
         "petOwner": "Pet Sahibi",
         "deleteConfirm": "Bu peti silmek istediğinize emin misiniz?",
+        "username": "Kullanıcı Adı",
+        "bio": "Biyografi",
         "types": {
             "dog": "Köpek",
             "cat": "Kedi",

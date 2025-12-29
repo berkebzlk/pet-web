@@ -101,7 +101,48 @@
         "noPendingRequests": "No pending match requests.",
         "requestSentButton": "Request Sent"
     },
+    "settings": {
+        "title": "Settings",
+        "account": "Your Account",
+        "application": "Application",
+        "language": "Language",
+        "appLanguage": "{{appName}} Language",
+        "searchLanguage": "Search",
+        "accountsCenter": "Accounts Center",
+        "interactions": "Interactions",
+        "saved": "Saved",
+        "archive": "Archive",
+        "privacy": "Who can see your content?",
+        "accountPrivacy": "Account Privacy",
+        "closeFriends": "Close Friends",
+        "blocked": "Blocked",
+        "hideStory": "Hide story and live",
+        "addPet": "Add Pet",
+        "logout": "Logout"
+    },
+    "accountsCenter": {
+        "title": "Accounts Center",
+        "pets": "Pets",
+        "petsTitle": "YOUR PETS",
+        "accountSettings": "Account Settings",
+        "passwordSecurity": "Password and security",
+        "personalDetails": "Personal details",
+        "noPets": "You haven't added any pets yet."
+    },
+    "personalDetails": {
+        "title": "Personal Details",
+        "name": "Name",
+        "email": "Email",
+        "emailDisabled": "Email address cannot be changed right now.",
+        "save": "Save",
+        "saving": "Saving...",
+        "success": "Personal details updated",
+        "error": "Update failed"
+    },
     "pet": {
+        "title": "Pets",
+        "yourPets": "YOUR PETS",
+        "editTitle": "Edit Pet",
         "add": "Add Pet",
         "loading": "Loading...",
         "notFound": "Pet not found",
@@ -116,6 +157,8 @@
         "owner": "Owner",
         "petOwner": "Pet Owner",
         "deleteConfirm": "Are you sure you want to delete this pet?",
+        "username": "Username",
+        "bio": "Bio",
         "types": {
             "dog": "Dog",
             "cat": "Cat",

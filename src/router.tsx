@@ -9,7 +9,15 @@ import { DashboardPage } from './modules/dashboard/pages/DashboardPage';
 import { LoginPage } from './modules/auth/pages/LoginPage';
 import { RegisterPage } from './modules/auth/pages/RegisterPage';
 import { ProfilePage } from './modules/profile/pages/ProfilePage';
+import { SettingsPage } from './modules/settings/pages/SettingsPage';
+import { AccountsCenterPage } from './modules/settings/pages/AccountsCenterPage';
+import { PersonalDetailsPage } from './modules/settings/pages/PersonalDetailsPage';
+import { PetsListPage } from './modules/settings/pages/PetsListPage';
+import { PetDetailPage } from './modules/pet/pages/PetDetailPage';
+import { EditPetPage } from './modules/pet/pages/EditPetPage';
 import { AddPetPage } from './modules/pet/pages/AddPetPage';
+import { LanguageSettingsPage } from './modules/settings/pages/LanguageSettingsPage';
+import { LanguageSelectionPage } from './modules/settings/pages/LanguageSelectionPage';
 import { matchRoutes } from './modules/match/routes';
 import { ServicesPage } from './modules/services/pages/ServicesPage';
 import { CarePage } from './modules/care/pages/CarePage';
@@ -63,6 +71,58 @@ export const router = createBrowserRouter([
                             {
                                 path: 'profile',
                                 element: <ProfilePage />,
+                            },
+                            {
+                                path: 'settings',
+                                children: [
+                                    {
+                                        index: true,
+                                        element: <SettingsPage />,
+                                    },
+                                    {
+                                        path: 'accounts-center',
+                                        children: [
+                                            {
+                                                index: true,
+                                                element: <AccountsCenterPage />,
+                                            },
+                                            {
+                                                path: 'personal-details',
+                                                element: <PersonalDetailsPage />,
+                                            },
+                                            {
+                                                path: 'pets',
+                                                children: [
+                                                    {
+                                                        index: true,
+                                                        element: <PetsListPage />,
+                                                    },
+                                                    {
+                                                        path: ':id',
+                                                        element: <PetDetailPage />,
+                                                    },
+                                                    {
+                                                        path: ':id/edit',
+                                                        element: <EditPetPage />,
+                                                    },
+                                                ],
+                                            },
+                                        ],
+                                    },
+                                    {
+                                        path: 'language',
+                                        children: [
+                                            {
+                                                index: true,
+                                                element: <LanguageSettingsPage />,
+                                            },
+                                            {
+                                                path: 'selection',
+                                                element: <LanguageSelectionPage />,
+                                            },
+                                        ],
+                                    },
+                                ],
                             },
                             {
                                 path: 'pets/new',
