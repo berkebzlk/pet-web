@@ -59,3 +59,14 @@ export const useAuthUser = () => {
         staleTime: 1000 * 60 * 30, // 30 mins
     });
 };
+
+export const useUpdateUser = () => {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: authService.updateUser,
+        onSuccess: (updatedUser) => {
+            queryClient.setQueryData(['authUser'], updatedUser);
+        },
+    });
+};
