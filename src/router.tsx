@@ -21,6 +21,7 @@ import { LanguageSelectionPage } from './modules/settings/pages/LanguageSelectio
 import { matchRoutes } from './modules/match/routes';
 import { ServicesPage } from './modules/services/pages/ServicesPage';
 import { CarePage } from './modules/care/pages/CarePage';
+import { PostFeedPage } from './modules/post/pages/PostFeedPage';
 
 import { RootLayout } from './shared/components/layout/RootLayout';
 
@@ -28,6 +29,7 @@ export const router = createBrowserRouter([
     {
         element: <RootLayout />,
         children: [
+
             {
                 path: '/',
                 element: <LandingLayout />,
@@ -136,6 +138,14 @@ export const router = createBrowserRouter([
                             {
                                 path: 'care',
                                 element: <CarePage />,
+                            },
+                            {
+                                path: 'care',
+                                element: <CarePage />,
+                            },
+                            {
+                                path: 'posts',
+                                element: <PostFeedPage />,
                             },
                         ],
                     },
