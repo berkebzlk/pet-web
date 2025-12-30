@@ -1,10 +1,12 @@
 import { api } from '@/shared/lib/api';
 import type { LoginSchema, RegisterSchema } from '../schemas/auth.schema';
+import type { Pet } from '@/modules/pet/types/pet.types';
 
 export interface User {
     id: number;
     name: string;
     email: string;
+    pets?: Pet[];
 }
 
 export interface AuthResponse {
