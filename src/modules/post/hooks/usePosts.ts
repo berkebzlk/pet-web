@@ -1,4 +1,4 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient, useInfiniteQuery } from "@tanstack/react-query";
 import { postService } from "../services/post.service";
 import type { CreatePostDTO } from "../types/post.types";
 import { toast } from "sonner";
@@ -56,11 +56,29 @@ export const useUnlikePost = () => {
 export const useCommentPost = () => {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: ({ id, content }: { id: number, content: string }) => postService.comment(id, content),
-        onSuccess: () => {
+        mutationFn: ({ id, content, petId }: { id: number, content: string, petId: number }) => postService.comment(id, content, petId),
+        onSuccess: (_, variables) => {
             queryClient.invalidateQueries({ queryKey: ['posts'] });
+            queryClient.invalidateQueries({ queryKey: ['comments', variables.id] });
             toast.success("Comment added");
         }
+    });
+};
+
+
+
+export const usePostComments = (postId: number) => {
+    return useInfiniteQuery({
+        queryKey: ['comments', postId],
+        queryFn: ({ pageParam = 1 }) => postService.getComments(postId, pageParam),
+        initialPageParam: 1,
+        getNextPageParam: (lastPage) => {
+            if (lastPage.pagination.currentPage < lastPage.pagination.lastPage) {
+                return lastPage.pagination.currentPage + 1;
+            }
+            return undefined;
+        },
+        enabled: !!postId
     });
 };
 
