@@ -3,14 +3,14 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/shared/components/ui/avat
 import { Button } from "@/shared/components/ui/button";
 import { ScrollArea } from "@/shared/components/ui/scroll-area";
 import { Heart, MessageCircle, Send, Bookmark, MoreHorizontal, Trash2, ChevronLeft, ChevronRight } from "lucide-react";
-import { useState } from "react";
 import { useAuthUser } from "@/modules/auth/hooks/useAuth";
-import { useLikePost, useUnlikePost, useCommentPost, useSavePost, useUnsavePost, useDeletePost, useDeleteComment } from "../hooks/usePosts";
+import { useLikePost, useUnlikePost, useSavePost, useUnsavePost, useDeletePost } from "../hooks/usePosts";
 import type { Post } from "../types/post.types";
 import { formatDistanceToNow } from "date-fns";
 import { enUS, tr } from "date-fns/locale";
 import { useTranslation } from "react-i18next";
-import { Input } from "@/shared/components/ui/input";
+import { CommentList } from "./CommentList";
+import { CommentInput } from "./CommentInput";
 
 interface PostDetailModalProps {
     post: Post | null;
@@ -24,13 +24,10 @@ interface PostDetailModalProps {
 
 export function PostDetailModal({ post, open, onOpenChange, onNext, onPrev, hasNext, hasPrev }: PostDetailModalProps) {
     const { i18n } = useTranslation();
-    const [comment, setComment] = useState("");
     const { data: user } = useAuthUser();
 
     const likePost = useLikePost();
     const unlikePost = useUnlikePost();
-    const commentPost = useCommentPost();
-    const deleteComment = useDeleteComment();
     const savePost = useSavePost();
     const unsavePost = useUnsavePost();
     const deletePost = useDeletePost();
@@ -53,18 +50,7 @@ export function PostDetailModal({ post, open, onOpenChange, onNext, onPrev, hasN
         }
     };
 
-    const handleComment = (e: React.FormEvent) => {
-        e.preventDefault();
-        if (!comment.trim()) return;
 
-        commentPost.mutate({ id: post.id, content: comment }, {
-            onSuccess: () => setComment("")
-        });
-    };
-
-    const handleDeleteComment = (commentId: number) => {
-        deleteComment.mutate({ postId: post.id, commentId });
-    };
 
     const handleDeletePost = () => {
         if (confirm("Are you sure you want to delete this post?")) {
@@ -158,28 +144,7 @@ export function PostDetailModal({ post, open, onOpenChange, onNext, onPrev, hasN
                                 />
                             </div>
 
-                            {/* Caption */}
-                            {post.description && (
-                                <div className="flex gap-3 mb-6">
-                                    <Avatar className="h-8 w-8">
-                                        <AvatarImage src={post.pet?.image || undefined} />
-                                        <AvatarFallback>{post.pet?.name[0]}</AvatarFallback>
-                                    </Avatar>
-                                    <div className="flex-1 space-y-1">
-                                        <p className="text-sm">
-                                            <span className="font-semibold mr-2">{post.pet?.username}</span>
-                                            {post.description}
-                                        </p>
-                                        <p className="text-xs text-muted-foreground">
-                                            {formatDistanceToNow(new Date(post.created_at), { addSuffix: true, locale: i18n.language === 'tr' ? tr : enUS })}
-                                        </p>
-                                    </div>
-                                </div>
-                            )}
-
-                            <div className="text-center text-muted-foreground text-sm py-8">
-                                No comments yet.
-                            </div>
+                            <CommentList post={post} />
                         </ScrollArea>
 
                         {/* Actions */}
@@ -216,22 +181,7 @@ export function PostDetailModal({ post, open, onOpenChange, onNext, onPrev, hasN
                             </p>
 
                             {/* Comment Input */}
-                            <form onSubmit={handleComment} className="flex items-center gap-2">
-                                <Input
-                                    placeholder="Add a comment..."
-                                    className="flex-1 border-none focus-visible:ring-0 px-0"
-                                    value={comment}
-                                    onChange={(e) => setComment(e.target.value)}
-                                />
-                                <Button
-                                    type="submit"
-                                    variant="ghost"
-                                    className="text-primary font-semibold hover:text-primary/80 px-2"
-                                    disabled={!comment.trim() || commentPost.isPending}
-                                >
-                                    Post
-                                </Button>
-                            </form>
+                            <CommentInput postId={post.id} />
                         </div>
                     </div>
                 </div>

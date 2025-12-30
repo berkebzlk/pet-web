@@ -11,17 +11,19 @@ export interface Post {
     comments_count: number;
     is_liked: boolean;
     is_saved: boolean;
+    comments?: Comment[];
 }
 
 export interface Comment {
     id: number;
-    user_id: number;
+    pet_id: number;
     post_id: number;
     content: string;
     created_at: string;
-    user: {
+    pet: {
         id: number;
         name: string;
+        username: string;
         image?: string;
     };
 }
