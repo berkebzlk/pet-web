@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useMyPets } from '@/modules/pet/hooks/usePets';
 import { useAuthUser } from '@/modules/auth/hooks/useAuth';
 import { Button } from '@/shared/components/ui/button';
-import { Plus, Settings, User, ChevronDown } from 'lucide-react';
+import { Plus, Settings, ChevronDown } from 'lucide-react';
 import type { Pet } from '@/modules/pet/types/pet.types';
 import { Modal } from '@/shared/components/ui/modal';
 import { PetForm } from '@/modules/pet/components/PetForm';
@@ -15,18 +15,27 @@ import {
 } from "@/shared/components/ui/dropdown-menu";
 
 import { useNavigate } from 'react-router-dom';
+import { usePetPosts } from '@/modules/post/hooks/usePosts';
+import { PostDetailModal } from '@/modules/post/components/PostDetailModal';
+import type { Post } from '@/modules/post/types/post.types';
+
+import { CreatePostModal } from '@/modules/post/components/CreatePostModal';
+
+import { useActivePet } from '@/shared/hooks/useActivePet';
 
 export function ProfilePage() {
     const { t } = useTranslation();
     const navigate = useNavigate();
-    const { data, isLoading } = useMyPets();
+    const { data } = useMyPets();
     const { data: user } = useAuthUser();
+    const { activePetId, setActivePet } = useActivePet();
 
     const pets = data?.data?.data || [];
 
     const [isAddPetOpen, setIsAddPetOpen] = useState(false);
+    const [isCreatePostOpen, setIsCreatePostOpen] = useState(false);
     const [selectedPet, setSelectedPet] = useState<Pet | null>(null);
-    const [activePetId, setActivePetId] = useState<number | null>(null);
+    const [selectedPost, setSelectedPost] = useState<Post | null>(null);
 
     const handleEditPet = (pet: Pet) => {
         setSelectedPet(pet);
@@ -38,10 +47,44 @@ export function ProfilePage() {
         setSelectedPet(null);
     };
 
-    const currentPet = pets.find(p => p.id === activePetId) || pets[0];
+    const currentPet = activePetId ? pets.find((p: Pet) => p.id === activePetId) : (pets[0] || null);
+
+    // Fetch posts for current pet
+    const { data: posts = [] } = usePetPosts(currentPet?.id || 0);
+
+    const handlePostClick = (post: Post) => {
+        if (window.innerWidth < 768) {
+            // Mobile: Navigate to feed page
+            navigate('/app/posts', { state: { initialPostId: post.id, petId: currentPet?.id } });
+        } else {
+            // Desktop: Open modal
+            setSelectedPost(post);
+        }
+    };
+
+    const handleNextPost = () => {
+        if (!selectedPost) return;
+        const currentIndex = posts.findIndex(p => p.id === selectedPost.id);
+        if (currentIndex < posts.length - 1) {
+            setSelectedPost(posts[currentIndex + 1]);
+        }
+    };
+
+    const handlePrevPost = () => {
+        if (!selectedPost) return;
+        const currentIndex = posts.findIndex(p => p.id === selectedPost.id);
+        if (currentIndex > 0) {
+            setSelectedPost(posts[currentIndex - 1]);
+        }
+    };
+
+    const selectedPostIndex = selectedPost ? posts.findIndex(p => p.id === selectedPost.id) : -1;
+    const hasNext = selectedPostIndex < posts.length - 1;
+    const hasPrev = selectedPostIndex > 0;
 
     return (
         <div className="pb-20">
+            {/* ... Header and Profile Info ... */}
             {/* Header */}
             <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-md border-b px-4 h-14 flex items-center justify-between">
                 <DropdownMenu>
@@ -51,7 +94,7 @@ export function ProfilePage() {
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="start" className="w-56">
                         {pets.map((pet: Pet) => (
-                            <DropdownMenuItem key={pet.id} onClick={() => setActivePetId(pet.id)}>
+                            <DropdownMenuItem key={pet.id} onClick={() => setActivePet(pet.id)}>
                                 <div className="flex items-center gap-2 w-full">
                                     <div className="w-6 h-6 rounded-full overflow-hidden bg-muted">
                                         {pet.image ? (
@@ -98,7 +141,7 @@ export function ProfilePage() {
 
                     <div className="flex-1 flex justify-around text-center">
                         <div>
-                            <div className="font-bold text-lg">{currentPet?.postsCount || 0}</div>
+                            <div className="font-bold text-lg">{posts.length}</div>
                             <div className="text-xs text-muted-foreground">Posts</div>
                         </div>
                         <div>
@@ -123,8 +166,8 @@ export function ProfilePage() {
                     <Button className="flex-1" variant="outline" size="sm" onClick={() => currentPet && handleEditPet(currentPet)}>
                         Edit Profile
                     </Button>
-                    <Button className="flex-1" variant="outline" size="sm">
-                        Share Profile
+                    <Button className="flex-1" variant="outline" size="sm" onClick={() => setIsCreatePostOpen(true)}>
+                        Create Post
                     </Button>
                 </div>
 
@@ -140,15 +183,24 @@ export function ProfilePage() {
 
                 {/* Grid */}
                 <div className="grid grid-cols-3 gap-1">
-                    {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((i) => (
-                        <div key={i} className="aspect-square bg-muted relative group cursor-pointer overflow-hidden">
+                    {posts.map((post: Post) => (
+                        <div
+                            key={post.id}
+                            className="aspect-square bg-muted relative group cursor-pointer overflow-hidden"
+                            onClick={() => handlePostClick(post)}
+                        >
                             <img
-                                src={`https://images.unsplash.com/photo-${1550000000000 + i}?w=400&h=400&fit=crop`}
+                                src={post.image_url}
                                 alt="Post"
                                 className="w-full h-full object-cover transition-transform group-hover:scale-110"
                             />
                         </div>
                     ))}
+                    {posts.length === 0 && (
+                        <div className="col-span-3 py-12 text-center text-muted-foreground">
+                            No posts yet.
+                        </div>
+                    )}
                 </div>
             </div>
 
@@ -160,11 +212,24 @@ export function ProfilePage() {
                 <PetForm
                     initialData={selectedPet || undefined}
                     onSuccess={handleCloseModal}
-                    onCancel={handleCloseModal}
                 />
             </Modal>
 
+            <CreatePostModal
+                open={isCreatePostOpen}
+                onOpenChange={setIsCreatePostOpen}
+            />
 
+            <PostDetailModal
+                post={posts.find(p => p.id === selectedPost?.id) || selectedPost}
+                open={!!selectedPost}
+                onOpenChange={(open) => !open && setSelectedPost(null)}
+                onNext={handleNextPost}
+                onPrev={handlePrevPost}
+                hasNext={hasNext}
+                hasPrev={hasPrev}
+            />
         </div>
     );
 }
+
