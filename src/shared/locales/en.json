@@ -78,6 +78,7 @@
         "match": "Match",
         "services": "Services",
         "care": "Care",
+        "feed": "Feed",
         "profile": "Profile"
     },
     "match": {
