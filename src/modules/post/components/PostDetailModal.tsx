@@ -11,6 +11,8 @@ import { enUS, tr } from "date-fns/locale";
 import { useTranslation } from "react-i18next";
 import { CommentList } from "./CommentList";
 import { CommentInput } from "./CommentInput";
+import { useActivePet } from "../../../shared/hooks/useActivePet";
+import { toast } from "sonner";
 
 interface PostDetailModalProps {
     post: Post | null;
@@ -23,7 +25,7 @@ interface PostDetailModalProps {
 }
 
 export function PostDetailModal({ post, open, onOpenChange, onNext, onPrev, hasNext, hasPrev }: PostDetailModalProps) {
-    const { i18n } = useTranslation();
+    const { i18n, t } = useTranslation();
     const { data: user } = useAuthUser();
 
     const likePost = useLikePost();
@@ -31,29 +33,38 @@ export function PostDetailModal({ post, open, onOpenChange, onNext, onPrev, hasN
     const savePost = useSavePost();
     const unsavePost = useUnsavePost();
     const deletePost = useDeletePost();
+    const { activePetId } = useActivePet();
 
     if (!post) return null;
 
     const handleLike = () => {
+        if (!activePetId) {
+            toast.error("Please select a pet first");
+            return;
+        }
         if (post.is_liked) {
-            unlikePost.mutate(post.id);
+            unlikePost.mutate({ id: post.id, petId: activePetId });
         } else {
-            likePost.mutate(post.id);
+            likePost.mutate({ id: post.id, petId: activePetId });
         }
     };
 
     const handleSave = () => {
+        if (!activePetId) {
+            toast.error("Please select a pet first");
+            return;
+        }
         if (post.is_saved) {
-            unsavePost.mutate(post.id);
+            unsavePost.mutate({ id: post.id, petId: activePetId });
         } else {
-            savePost.mutate(post.id);
+            savePost.mutate({ id: post.id, petId: activePetId });
         }
     };
 
 
 
     const handleDeletePost = () => {
-        if (confirm("Are you sure you want to delete this post?")) {
+        if (confirm(t('post.deleteConfirm'))) {
             deletePost.mutate(post.id, {
                 onSuccess: () => onOpenChange(false)
             });
@@ -175,7 +186,7 @@ export function PostDetailModal({ post, open, onOpenChange, onNext, onPrev, hasN
                                     <Bookmark className={`h-6 w-6 ${post.is_saved ? "fill-current" : ""}`} />
                                 </Button>
                             </div>
-                            <div className="font-semibold text-sm mb-2">{post.likes_count} likes</div>
+                            <div className="font-semibold text-sm mb-2">{post.likes_count} {t('post.likes')}</div>
                             <p className="text-xs text-muted-foreground uppercase mb-4">
                                 {formatDistanceToNow(new Date(post.created_at), { addSuffix: true, locale: i18n.language === 'tr' ? tr : enUS })}
                             </p>

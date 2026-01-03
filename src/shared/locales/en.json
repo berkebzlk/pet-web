@@ -206,5 +206,9 @@
         "editProfile": "Edit Profile",
         "logout": "Logout",
         "comingSoon": "Coming Soon!"
+    },
+    "post": {
+        "deleteConfirm": "Are you sure you want to delete this post?",
+        "likes": "likes"
     }
 }

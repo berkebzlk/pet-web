@@ -1,10 +1,13 @@
 import type { Post } from "../types/post.types";
 import { Avatar, AvatarFallback, AvatarImage } from "../../../shared/components/ui/avatar";
 import { Card, CardContent, CardFooter, CardHeader } from "../../../shared/components/ui/card";
-import { Heart, MessageCircle, Send } from "lucide-react";
+import { Heart, MessageCircle, Send, Bookmark } from "lucide-react";
 import { Button } from "../../../shared/components/ui/button";
+import { useLikePost, useUnlikePost, useSavePost, useUnsavePost } from "../hooks/usePosts";
 import { formatDistanceToNow } from "date-fns";
 import { tr } from "date-fns/locale";
+import { useActivePet } from "../../../shared/hooks/useActivePet";
+import { toast } from "sonner";
 
 interface PostCardProps {
     post: Post;
@@ -12,6 +15,37 @@ interface PostCardProps {
 }
 
 export function PostCard({ post, onCommentClick }: PostCardProps) {
+    const likePost = useLikePost();
+    const unlikePost = useUnlikePost();
+    const savePost = useSavePost();
+    const unsavePost = useUnsavePost();
+
+    const { activePetId } = useActivePet();
+
+    const handleLike = () => {
+        if (!activePetId) {
+            toast.error("Please select a pet first");
+            return;
+        }
+        if (post.is_liked) {
+            unlikePost.mutate({ id: post.id, petId: activePetId });
+        } else {
+            likePost.mutate({ id: post.id, petId: activePetId });
+        }
+    };
+
+    const handleSave = () => {
+        if (!activePetId) {
+            toast.error("Please select a pet first");
+            return;
+        }
+        if (post.is_saved) {
+            unsavePost.mutate({ id: post.id, petId: activePetId });
+        } else {
+            savePost.mutate({ id: post.id, petId: activePetId });
+        }
+    };
+
     return (
         <Card className="w-full max-w-md mx-auto mb-4 border-none shadow-sm">
             <CardHeader className="flex flex-row items-center gap-3 p-4">
@@ -39,28 +73,40 @@ export function PostCard({ post, onCommentClick }: PostCardProps) {
                 </div>
             </CardContent>
             <CardFooter className="flex flex-col items-start p-4 gap-3">
-                <div className="flex w-full gap-4">
-                    <Button
-                        variant="ghost"
-                        size="sm"
-                        className={`gap-2 px-2 ${post.is_liked ? "text-red-500 hover:text-red-600" : "hover:text-red-500"}`}
-                    >
-                        <Heart className={`h-6 w-6 ${post.is_liked ? "fill-current" : ""}`} />
-                        {post.likes_count > 0 && <span className="text-sm font-semibold">{post.likes_count}</span>}
-                    </Button>
+                <div className="flex w-full items-center justify-between">
+                    <div className="flex items-center gap-4">
+                        <Button
+                            variant="ghost"
+                            size="sm"
+                            className={`gap-2 px-2 ${post.is_liked ? "text-red-500 hover:text-red-600" : "hover:text-red-500"}`}
+                            onClick={handleLike}
+                        >
+                            <Heart className={`h-6 w-6 ${post.is_liked ? "fill-current" : ""}`} />
+                            {post.likes_count > 0 && <span className="text-sm font-semibold">{post.likes_count}</span>}
+                        </Button>
+
+                        <Button
+                            variant="ghost"
+                            size="sm"
+                            className="gap-2 px-2"
+                            onClick={onCommentClick}
+                        >
+                            <MessageCircle className="h-6 w-6" />
+                            {post.comments_count > 0 && <span className="text-sm font-semibold">{post.comments_count}</span>}
+                        </Button>
+
+                        <Button variant="ghost" size="icon">
+                            <Send className="h-6 w-6" />
+                        </Button>
+                    </div>
 
                     <Button
                         variant="ghost"
-                        size="sm"
-                        className="gap-2 px-2"
-                        onClick={onCommentClick}
+                        size="icon"
+                        className={post.is_saved ? "text-primary" : ""}
+                        onClick={handleSave}
                     >
-                        <MessageCircle className="h-6 w-6" />
-                        {post.comments_count > 0 && <span className="text-sm font-semibold">{post.comments_count}</span>}
-                    </Button>
-
-                    <Button variant="ghost" size="icon" className="ml-auto">
-                        <Send className="h-6 w-6" />
+                        <Bookmark className={`h-6 w-6 ${post.is_saved ? "fill-current" : ""}`} />
                     </Button>
                 </div>
                 {post.description && (

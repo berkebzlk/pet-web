@@ -2,14 +2,15 @@ import { useMutation, useQuery, useQueryClient, useInfiniteQuery } from "@tansta
 import { postService } from "../services/post.service";
 import type { CreatePostDTO } from "../types/post.types";
 import { toast } from "sonner";
+import { useActivePet } from "../../../shared/hooks/useActivePet";
 
 export const useCreatePost = () => {
     const queryClient = useQueryClient();
 
     return useMutation({
         mutationFn: (data: CreatePostDTO) => postService.create(data),
-        onSuccess: () => {
-            toast.success("Post created successfully");
+        onSuccess: (data) => {
+            toast.success(data.message);
             queryClient.invalidateQueries({ queryKey: ['posts'] });
         },
         onError: (error: any) => {
@@ -19,16 +20,18 @@ export const useCreatePost = () => {
 };
 
 export const useFeed = () => {
+    const { activePetId } = useActivePet();
     return useQuery({
-        queryKey: ['posts', 'feed'],
-        queryFn: postService.getFeed,
+        queryKey: ['posts', 'feed', activePetId],
+        queryFn: () => postService.getFeed(activePetId),
     });
 };
 
 export const usePetPosts = (petId: number) => {
+    const { activePetId } = useActivePet();
     return useQuery({
-        queryKey: ['posts', 'pet', petId],
-        queryFn: () => postService.getPetPosts(petId),
+        queryKey: ['posts', 'pet', petId, activePetId],
+        queryFn: () => postService.getPetPosts(petId, activePetId),
         enabled: !!petId,
     });
 };
@@ -36,7 +39,7 @@ export const usePetPosts = (petId: number) => {
 export const useLikePost = () => {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: (id: number) => postService.like(id),
+        mutationFn: ({ id, petId }: { id: number, petId: number }) => postService.like(id, petId),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['posts'] });
         }
@@ -46,7 +49,7 @@ export const useLikePost = () => {
 export const useUnlikePost = () => {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: (id: number) => postService.unlike(id),
+        mutationFn: ({ id, petId }: { id: number, petId: number }) => postService.unlike(id, petId),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['posts'] });
         }
@@ -57,10 +60,10 @@ export const useCommentPost = () => {
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn: ({ id, content, petId }: { id: number, content: string, petId: number }) => postService.comment(id, content, petId),
-        onSuccess: (_, variables) => {
+        onSuccess: (data, variables) => {
             queryClient.invalidateQueries({ queryKey: ['posts'] });
             queryClient.invalidateQueries({ queryKey: ['comments', variables.id] });
-            toast.success("Comment added");
+            toast.success(data.message);
         }
     });
 };
@@ -86,9 +89,9 @@ export const useDeleteComment = () => {
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn: ({ postId, commentId }: { postId: number, commentId: number }) => postService.deleteComment(postId, commentId),
-        onSuccess: () => {
+        onSuccess: (data) => {
             queryClient.invalidateQueries({ queryKey: ['posts'] });
-            toast.success("Comment deleted");
+            toast.success(data.message);
         }
     });
 };
@@ -96,10 +99,10 @@ export const useDeleteComment = () => {
 export const useSavePost = () => {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: (id: number) => postService.save(id),
-        onSuccess: () => {
+        mutationFn: ({ id, petId }: { id: number, petId: number }) => postService.save(id, petId),
+        onSuccess: (data) => {
             queryClient.invalidateQueries({ queryKey: ['posts'] });
-            toast.success("Post saved");
+            toast.success(data.message);
         }
     });
 };
@@ -107,10 +110,10 @@ export const useSavePost = () => {
 export const useUnsavePost = () => {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: (id: number) => postService.unsave(id),
-        onSuccess: () => {
+        mutationFn: ({ id, petId }: { id: number, petId: number }) => postService.unsave(id, petId),
+        onSuccess: (data) => {
             queryClient.invalidateQueries({ queryKey: ['posts'] });
-            toast.success("Post removed from saved");
+            toast.success(data.message);
         }
     });
 };
@@ -119,9 +122,9 @@ export const useDeletePost = () => {
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn: (id: number) => postService.delete(id),
-        onSuccess: () => {
+        onSuccess: (data) => {
             queryClient.invalidateQueries({ queryKey: ['posts'] });
-            toast.success("Post deleted successfully");
+            toast.success(data.message);
         }
     });
 };

@@ -206,5 +206,9 @@
         "editProfile": "Profili Düzenle",
         "logout": "Çıkış Yap",
         "comingSoon": "Çok Yakında!"
+    },
+    "post": {
+        "deleteConfirm": "Bu gönderiyi silmek istediğinize emin misiniz?",
+        "likes": "beğeni"
     }
 }
