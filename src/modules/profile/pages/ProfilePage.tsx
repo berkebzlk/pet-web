@@ -23,6 +23,8 @@ import { CreatePostModal } from '@/modules/post/components/CreatePostModal';
 
 import { useActivePet } from '@/shared/hooks/useActivePet';
 
+import { MatchListModal } from '@/modules/match/components/MatchListModal';
+
 export function ProfilePage() {
     const { t } = useTranslation();
     const navigate = useNavigate();
@@ -34,6 +36,7 @@ export function ProfilePage() {
 
     const [isAddPetOpen, setIsAddPetOpen] = useState(false);
     const [isCreatePostOpen, setIsCreatePostOpen] = useState(false);
+    const [isMatchListOpen, setIsMatchListOpen] = useState(false);
     const [selectedPet, setSelectedPet] = useState<Pet | null>(null);
     const [selectedPost, setSelectedPost] = useState<Post | null>(null);
 
@@ -144,12 +147,15 @@ export function ProfilePage() {
                             <div className="font-bold text-lg">{posts.length}</div>
                             <div className="text-xs text-muted-foreground">Posts</div>
                         </div>
-                        <div>
+                        <div
+                            className="cursor-pointer hover:opacity-80 transition-opacity"
+                            onClick={() => setIsMatchListOpen(true)}
+                        >
                             <div className="font-bold text-lg">{currentPet?.matchCount || 0}</div>
                             <div className="text-xs text-muted-foreground">Matches</div>
                         </div>
                         <div>
-                            <div className="font-bold text-lg">0</div>
+                            <div className="font-bold text-lg">{currentPet?.likesCount || 0}</div>
                             <div className="text-xs text-muted-foreground">Likes</div>
                         </div>
                     </div>
@@ -221,13 +227,19 @@ export function ProfilePage() {
             />
 
             <PostDetailModal
-                post={posts.find(p => p.id === selectedPost?.id) || selectedPost}
+                postId={selectedPost?.id || null}
                 open={!!selectedPost}
                 onOpenChange={(open) => !open && setSelectedPost(null)}
                 onNext={handleNextPost}
                 onPrev={handlePrevPost}
                 hasNext={hasNext}
                 hasPrev={hasPrev}
+            />
+
+            <MatchListModal
+                petId={currentPet?.id || null}
+                open={isMatchListOpen}
+                onOpenChange={setIsMatchListOpen}
             />
         </div>
     );
