@@ -32,6 +32,7 @@ export interface Pet {
     username: string;
     postsCount: number;
     matchCount: number;
+    likesCount: number;
     user?: {
         id: number;
         name: string;

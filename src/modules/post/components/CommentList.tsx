@@ -37,7 +37,9 @@ export function CommentList({ post }: CommentListProps) {
                             {post.description}
                         </p>
                         <p className="text-xs text-muted-foreground">
-                            {formatDistanceToNow(new Date(post.created_at), { addSuffix: true, locale: i18n.language === 'tr' ? tr : enUS })}
+                            {post.created_at && !isNaN(new Date(post.created_at).getTime())
+                                ? formatDistanceToNow(new Date(post.created_at), { addSuffix: true, locale: i18n.language === 'tr' ? tr : enUS })
+                                : ''}
                         </p>
                     </div>
                 </div>
@@ -62,7 +64,9 @@ export function CommentList({ post }: CommentListProps) {
                                     {comment.content}
                                 </div>
                                 <p className="text-xs text-muted-foreground">
-                                    {formatDistanceToNow(new Date(comment.created_at), { addSuffix: true, locale: i18n.language === 'tr' ? tr : enUS })}
+                                    {comment.created_at && !isNaN(new Date(comment.created_at).getTime())
+                                        ? formatDistanceToNow(new Date(comment.created_at), { addSuffix: true, locale: i18n.language === 'tr' ? tr : enUS })
+                                        : ''}
                                 </p>
                             </div>
                         </div>

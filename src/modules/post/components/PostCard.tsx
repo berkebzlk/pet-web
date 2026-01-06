@@ -12,11 +12,32 @@ import { toast } from "sonner";
 interface PostCardProps {
     post: Post;
     onCommentClick?: () => void;
+    onPostUpdate?: (post: Post) => void;
 }
 
-export function PostCard({ post, onCommentClick }: PostCardProps) {
-    const likePost = useLikePost();
-    const unlikePost = useUnlikePost();
+export function PostCard({ post, onCommentClick, onPostUpdate }: PostCardProps) {
+    const likePost = useLikePost({
+        onSuccess: () => {
+            if (onPostUpdate) {
+                onPostUpdate({
+                    ...post,
+                    is_liked: true,
+                    likes_count: post.likes_count + 1
+                });
+            }
+        }
+    });
+    const unlikePost = useUnlikePost({
+        onSuccess: () => {
+            if (onPostUpdate) {
+                onPostUpdate({
+                    ...post,
+                    is_liked: false,
+                    likes_count: Math.max(0, post.likes_count - 1)
+                });
+            }
+        }
+    });
     const savePost = useSavePost();
     const unsavePost = useUnsavePost();
 
@@ -58,7 +79,9 @@ export function PostCard({ post, onCommentClick }: PostCardProps) {
                         {post.pet?.username || post.pet?.name}
                     </span>
                     <span className="text-xs text-muted-foreground">
-                        {formatDistanceToNow(new Date(post.created_at), { addSuffix: true, locale: tr })}
+                        {post.created_at && !isNaN(new Date(post.created_at).getTime())
+                            ? formatDistanceToNow(new Date(post.created_at), { addSuffix: true, locale: tr })
+                            : ''}
                     </span>
                 </div>
             </CardHeader>

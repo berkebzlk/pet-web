@@ -8,9 +8,10 @@ interface PostCommentsDrawerProps {
     post: Post | null;
     open: boolean;
     onClose: () => void;
+    onPostUpdate?: (post: Post) => void;
 }
 
-export function PostCommentsDrawer({ post, open, onClose }: PostCommentsDrawerProps) {
+export function PostCommentsDrawer({ post, open, onClose, onPostUpdate }: PostCommentsDrawerProps) {
     const [isVisible, setIsVisible] = useState(false);
     const [isDragging, setIsDragging] = useState(false);
     const [startY, setStartY] = useState(0);
@@ -47,6 +48,15 @@ export function PostCommentsDrawer({ post, open, onClose }: PostCommentsDrawerPr
             onClose();
         }
         setCurrentY(0);
+    };
+
+    const handleCommentAdded = () => {
+        if (post && onPostUpdate) {
+            onPostUpdate({
+                ...post,
+                comments_count: post.comments_count + 1
+            });
+        }
     };
 
     if (!isVisible && !open) return null;
@@ -90,7 +100,7 @@ export function PostCommentsDrawer({ post, open, onClose }: PostCommentsDrawerPr
 
                 {/* Footer (Input) */}
                 <div className="p-4 border-t pb-8"> {/* Extra padding for safe area */}
-                    <CommentInput postId={post.id} />
+                    <CommentInput postId={post.id} onCommentAdded={handleCommentAdded} />
                 </div>
             </div>
         </div>

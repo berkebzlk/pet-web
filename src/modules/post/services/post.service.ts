@@ -24,9 +24,28 @@ export const postService = {
         return response.data.data;
     },
 
+    getPost: async (id: number): Promise<Post> => {
+        const response = await api.get(`/post/${id}`);
+        return response.data.data;
+    },
+
     getPetPosts: async (petId: number, viewingPetId?: number | null): Promise<Post[]> => {
         const params = viewingPetId ? { pet_id: viewingPetId } : {};
         const response = await api.get(`/pet/${petId}/post`, { params });
+        return response.data.data;
+    },
+
+    getRandomPosts: async (limit = 20, viewingPetId?: number | null): Promise<Post[]> => {
+        const params: any = { limit };
+        if (viewingPetId) {
+            params.pet_id = viewingPetId;
+        }
+        const response = await api.get('/post/random', { params });
+        return response.data.data;
+    },
+
+    getBatch: async (ids: number[], viewingPetId?: number | null): Promise<Post[]> => {
+        const response = await api.post('/post/batch', { ids, pet_id: viewingPetId });
         return response.data.data;
     },
 

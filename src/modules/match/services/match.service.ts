@@ -28,10 +28,20 @@ export const matchService = {
         return response.data;
     },
 
+    cancel: async (matchId: number) => {
+        const response = await api.delete(`/matches/${matchId}`);
+        return response.data;
+    },
+
     checkStatus: async (initiatorPetId: number, targetPetId: number): Promise<Match | null> => {
         const response = await api.get('/matches/check', {
             params: { initiator_pet_id: initiatorPetId, target_pet_id: targetPetId }
         });
         return response.data.data;
+    },
+
+    getMatches: async (petId: number, params: { search?: string; page?: number; per_page?: number } = {}) => {
+        const response = await api.get(`/matches/${petId}`, { params });
+        return response.data;
     },
 };

@@ -17,6 +17,16 @@ export const petService = {
         return response.data;
     },
 
+    getByUsername: async (username: string) => {
+        const response = await api.get(`/pet/username/${username}`);
+        return response.data;
+    },
+
+    searchPets: async (query: string, limit = 5) => {
+        const response = await api.get('/pet/search', { params: { q: query, limit } });
+        return response.data.data;
+    },
+
     create: async (data: CreatePetDTO) => {
         const formData = new FormData();
         Object.entries(data).forEach(([key, value]) => {

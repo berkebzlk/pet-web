@@ -27,36 +27,50 @@ export const useFeed = () => {
     });
 };
 
-export const usePetPosts = (petId: number) => {
+export const usePetPosts = (petId: number, options?: { enabled?: boolean }) => {
     const { activePetId } = useActivePet();
     return useQuery({
         queryKey: ['posts', 'pet', petId, activePetId],
         queryFn: () => postService.getPetPosts(petId, activePetId),
-        enabled: !!petId,
+        enabled: options?.enabled !== undefined ? options.enabled : !!petId,
     });
 };
 
-export const useLikePost = () => {
+export const useRandomPosts = (limit = 21) => {
+    const { activePetId } = useActivePet();
+    return useQuery({
+        queryKey: ['posts', 'random', activePetId],
+        queryFn: () => postService.getRandomPosts(limit, activePetId),
+        staleTime: Infinity, // Keep data fresh indefinitely
+        gcTime: 1000 * 60 * 30, // Keep in cache for 30 minutes
+        refetchOnWindowFocus: false,
+        refetchOnMount: false
+    });
+};
+
+export const useLikePost = (options?: { onSuccess?: () => void }) => {
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn: ({ id, petId }: { id: number, petId: number }) => postService.like(id, petId),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['posts'] });
+            options?.onSuccess?.();
         }
     });
 };
 
-export const useUnlikePost = () => {
+export const useUnlikePost = (options?: { onSuccess?: () => void }) => {
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn: ({ id, petId }: { id: number, petId: number }) => postService.unlike(id, petId),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['posts'] });
+            options?.onSuccess?.();
         }
     });
 };
 
-export const useCommentPost = () => {
+export const useCommentPost = (options?: { onSuccess?: () => void }) => {
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn: ({ id, content, petId }: { id: number, content: string, petId: number }) => postService.comment(id, content, petId),
@@ -64,6 +78,7 @@ export const useCommentPost = () => {
             queryClient.invalidateQueries({ queryKey: ['posts'] });
             queryClient.invalidateQueries({ queryKey: ['comments', variables.id] });
             toast.success(data.message);
+            options?.onSuccess?.();
         }
     });
 };
