@@ -9,6 +9,9 @@ import { DashboardPage } from './modules/dashboard/pages/DashboardPage';
 import { LoginPage } from './modules/auth/pages/LoginPage';
 import { RegisterPage } from './modules/auth/pages/RegisterPage';
 import { ProfilePage } from './modules/profile/pages/ProfilePage';
+import { PublicProfilePage } from './modules/profile/pages/PublicProfilePage';
+import { MatchRequestsPage } from './modules/match/pages/MatchRequestsPage';
+import { NotificationsPage } from './modules/notification/pages/NotificationsPage';
 import { SettingsPage } from './modules/settings/pages/SettingsPage';
 import { AccountsCenterPage } from './modules/settings/pages/AccountsCenterPage';
 import { PersonalDetailsPage } from './modules/settings/pages/PersonalDetailsPage';
@@ -22,6 +25,7 @@ import { matchRoutes } from './modules/match/routes';
 import { ServicesPage } from './modules/services/pages/ServicesPage';
 import { CarePage } from './modules/care/pages/CarePage';
 import { PostFeedPage } from './modules/post/pages/PostFeedPage';
+import DiscoverPage from './modules/discover/pages/DiscoverPage';
 
 import { RootLayout } from './shared/components/layout/RootLayout';
 
@@ -73,6 +77,18 @@ export const router = createBrowserRouter([
                             {
                                 path: 'profile',
                                 element: <ProfilePage />,
+                            },
+                            {
+                                path: 'profile/:username',
+                                element: <PublicProfilePage />,
+                            },
+                            {
+                                path: 'match-requests',
+                                element: <MatchRequestsPage />,
+                            },
+                            {
+                                path: 'notifications',
+                                element: <NotificationsPage />,
                             },
                             {
                                 path: 'settings',
@@ -146,6 +162,10 @@ export const router = createBrowserRouter([
                             {
                                 path: 'posts',
                                 element: <PostFeedPage />,
+                            },
+                            {
+                                path: 'discover',
+                                element: <DiscoverPage />,
                             },
                         ],
                     },
