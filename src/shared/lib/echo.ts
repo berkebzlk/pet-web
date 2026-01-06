@@ -13,7 +13,7 @@ window.Pusher = Pusher;
 
 import { api } from './api';
 
-export const echo = new Echo({
+export const echo = window.Echo = new Echo({
     broadcaster: 'reverb',
     key: import.meta.env.VITE_REVERB_APP_KEY,
     wsHost: import.meta.env.VITE_REVERB_HOST,

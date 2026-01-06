@@ -7,7 +7,11 @@
         "language": "Language",
         "view": "View",
         "save": "Save",
-        "learnMore": "Learn More"
+        "learnMore": "Learn More",
+        "search": "Search",
+        "noResults": "No results found",
+        "prev": "Previous",
+        "next": "Next"
     },
     "landing": {
         "hero": {
@@ -80,6 +84,7 @@
         "services": "Services",
         "care": "Care",
         "feed": "Feed",
+        "discover": "Discover",
         "profile": "Profile"
     },
     "match": {
@@ -101,7 +106,19 @@
         "myMatches": "My Matches",
         "selectPetFirst": "Please select a pet first.",
         "noPendingRequests": "No pending match requests.",
-        "requestSentButton": "Request Sent"
+        "requestSentButton": "Request Sent",
+        "message": "Message",
+        "connected": "Connected",
+        "accept": "Accept",
+        "reject": "Reject",
+        "requested": "Request Sent",
+        "connect": "Connect",
+        "cancelRequest": "Cancel Request",
+        "requestCancelled": "Match request cancelled",
+        "noMatches": "No matches yet.",
+        "unmatchConfirmTitle": "Unmatch Pet",
+        "unmatchConfirmDescription": "Are you sure you want to unmatch with this pet? This action cannot be undone.",
+        "unmatch": "Unmatch"
     },
     "settings": {
         "title": "Settings",
@@ -205,10 +222,22 @@
         "settings": "Settings",
         "editProfile": "Edit Profile",
         "logout": "Logout",
-        "comingSoon": "Coming Soon!"
+        "comingSoon": "Coming Soon!",
+        "posts": "Posts",
+        "matches": "Matches",
+        "likes": "Likes",
+        "noBio": "No bio yet.",
+        "noPosts": "No posts yet.",
+        "userNotFound": "User not found"
     },
     "post": {
         "deleteConfirm": "Are you sure you want to delete this post?",
         "likes": "likes"
+    },
+    "notifications": {
+        "title": "Notifications",
+        "markAllRead": "Mark all as read",
+        "empty": "No notifications yet",
+        "matchRequests": "Match Requests"
     }
 }

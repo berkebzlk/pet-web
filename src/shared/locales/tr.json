@@ -7,7 +7,11 @@
         "language": "Dil",
         "view": "Görüntüle",
         "save": "Kaydet",
-        "learnMore": "Daha Fazla Bilgi"
+        "learnMore": "Daha Fazla Bilgi",
+        "search": "Ara",
+        "noResults": "Sonuç bulunamadı",
+        "prev": "Önceki",
+        "next": "Sonraki"
     },
     "landing": {
         "hero": {
@@ -80,6 +84,7 @@
         "services": "Hizmetler",
         "care": "Takvim",
         "feed": "Akış",
+        "discover": "Keşfet",
         "profile": "Profil"
     },
     "match": {
@@ -101,7 +106,19 @@
         "myMatches": "Gelen İstekler",
         "selectPetFirst": "Lütfen önce bir evcil hayvan seçin.",
         "noPendingRequests": "Bekleyen eşleşme isteği yok.",
-        "requestSentButton": "İstek Gönderildi"
+        "requestSentButton": "İstek Gönderildi",
+        "message": "Mesaj",
+        "connected": "Bağlantı Kuruldu",
+        "accept": "Kabul Et",
+        "reject": "Reddet",
+        "requested": "İstek Gönderildi",
+        "connect": "Bağlan",
+        "cancelRequest": "İsteği İptal Et",
+        "requestCancelled": "Eşleşme isteği iptal edildi",
+        "noMatches": "Henüz eşleşme yok.",
+        "unmatchConfirmTitle": "Eşleşmeyi Kaldır",
+        "unmatchConfirmDescription": "Bu pet ile eşleşmeyi kaldırmak istediğinize emin misiniz? Bu işlem geri alınamaz.",
+        "unmatch": "Eşleşmeyi Kaldır"
     },
     "settings": {
         "title": "Ayarlar",
@@ -205,10 +222,22 @@
         "settings": "Ayarlar",
         "editProfile": "Profili Düzenle",
         "logout": "Çıkış Yap",
-        "comingSoon": "Çok Yakında!"
+        "comingSoon": "Çok Yakında!",
+        "posts": "Gönderi",
+        "matches": "Eşleşme",
+        "likes": "Beğeni",
+        "noBio": "Henüz biyografi yok.",
+        "noPosts": "Henüz gönderi yok.",
+        "userNotFound": "Kullanıcı bulunamadı"
     },
     "post": {
         "deleteConfirm": "Bu gönderiyi silmek istediğinize emin misiniz?",
         "likes": "beğeni"
+    },
+    "notifications": {
+        "title": "Bildirimler",
+        "markAllRead": "Tümünü okundu işaretle",
+        "empty": "Henüz bildirim yok",
+        "matchRequests": "Eşleşme İstekleri"
     }
 }
