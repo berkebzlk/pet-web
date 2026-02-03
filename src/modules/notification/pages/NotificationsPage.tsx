@@ -1,10 +1,10 @@
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, Bell, Check } from 'lucide-react';
+import { ArrowLeft, Bell } from 'lucide-react';
 import { Button } from '@/shared/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/shared/components/ui/avatar';
 import { useAuthUser } from '@/modules/auth/hooks/useAuth';
-import { useNotifications, useUnreadNotificationCount, useMarkAllNotificationsAsRead, useMarkNotificationAsRead, useListenForNotifications } from '../hooks/useNotifications';
+import { useNotifications, useMarkAllNotificationsAsRead, useMarkNotificationAsRead, useListenForNotifications } from '../hooks/useNotifications';
 import { cn } from '@/shared/lib/utils';
 import { formatDistanceToNow } from 'date-fns';
 import { tr, enUS } from 'date-fns/locale';
@@ -32,7 +32,7 @@ export function NotificationsPage() {
         if (notification.type === 'match_request_sent') {
             navigate('/app/match-requests');
         } else if (notification.type === 'match_accepted') {
-            navigate(`/app/profile/${notification.data.accepter_pet_name}`);
+            navigate(`/app/profile/${notification.data.accepter_pet_username || notification.data.accepter_pet_name}`);
         }
     };
 
