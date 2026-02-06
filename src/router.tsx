@@ -21,6 +21,8 @@ import { EditPetPage } from './modules/pet/pages/EditPetPage';
 import { AddPetPage } from './modules/pet/pages/AddPetPage';
 import { LanguageSettingsPage } from './modules/settings/pages/LanguageSettingsPage';
 import { LanguageSelectionPage } from './modules/settings/pages/LanguageSelectionPage';
+import { ChatPage } from './modules/message/pages/ChatPage';
+import { InboxPage } from './modules/message/pages/InboxPage';
 import { matchRoutes } from './modules/match/routes';
 import { ServicesPage } from './modules/services/pages/ServicesPage';
 import { CarePage } from './modules/care/pages/CarePage';
@@ -145,6 +147,14 @@ export const router = createBrowserRouter([
                             {
                                 path: 'pets/new',
                                 element: <AddPetPage />,
+                            },
+                            {
+                                path: 'messages',
+                                element: <InboxPage />,
+                            },
+                            {
+                                path: 'messages/:petId',
+                                element: <ChatPage />,
                             },
                             ...matchRoutes,
                             {

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/shared/components/ui/button';
-import { ArrowLeft, UserPlus, Check, X, MessageCircle, Heart } from 'lucide-react';
+import { ArrowLeft, UserPlus, Check, X, MessageCircle } from 'lucide-react';
 import { usePetPosts } from '@/modules/post/hooks/usePosts';
 import { PostDetailModal } from '@/modules/post/components/PostDetailModal';
 import type { Post } from '@/modules/post/types/post.types';
@@ -176,14 +176,24 @@ export function PublicProfilePage() {
                 {!isOwnProfile && (
                     <div className="flex gap-2">
                         {matchStatus?.status === 'accepted' ? (
-                            <Button
-                                className="flex-1"
-                                variant="outline"
-                                onClick={() => setIsUnmatchDialogOpen(true)}
-                            >
-                                <MessageCircle className="w-4 h-4 mr-2" />
-                                {t('match.connected')}
-                            </Button>
+                            <>
+                                <Button
+                                    className="flex-1"
+                                    variant="default"
+                                    onClick={() => navigate(`/app/messages/${pet.id}`)}
+                                >
+                                    <MessageCircle className="w-4 h-4 mr-2" />
+                                    {t('message.send')}
+                                </Button>
+                                <Button
+                                    className="w-12 px-0"
+                                    variant="outline"
+                                    onClick={() => setIsUnmatchDialogOpen(true)}
+                                >
+                                    <X className="w-4 h-4 text-destructive" />
+                                    <span className="sr-only">{t('match.unmatch')}</span>
+                                </Button>
+                            </>
                         ) : matchStatus?.status === 'pending' ? (
                             matchStatus.target_pet_id === activePetId ? (
                                 <>

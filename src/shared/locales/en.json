@@ -239,5 +239,17 @@
         "markAllRead": "Mark all as read",
         "empty": "No notifications yet",
         "matchRequests": "Match Requests"
+    },
+    "message": {
+        "title": "Messages",
+        "send": "Send",
+        "placeholder": "Type a message...",
+        "noMessages": "No messages yet. Say hello!",
+        "errorSending": "Error sending message",
+        "receiver_pet_id": "Receiver Pet",
+        "content": "Message Content",
+        "inbox": "Inbox",
+        "noConversations": "No conversations yet. Start connecting!",
+        "you": "You"
     }
 }

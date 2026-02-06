@@ -1,4 +1,5 @@
 import { MessageCircle, Bell } from 'lucide-react';
+import { useState } from 'react';
 import { Button } from '@/shared/components/ui/button';
 import { CreatePostModal } from "../../../modules/post/components/CreatePostModal";
 import { useNavigate } from 'react-router-dom';
@@ -6,12 +7,15 @@ import { useUnreadNotificationCount } from '@/modules/notification/hooks/useNoti
 
 import { useActivePet } from '@/modules/pet/context/ActivePetContext';
 import { usePendingMatches } from '@/modules/match/hooks/useMatch';
+import { useUnreadMessageCount } from '@/modules/message/hooks/useUnreadMessageCount';
 
 export function MobileHeader() {
     const navigate = useNavigate();
     const { activePet } = useActivePet();
     const { data: unreadCount } = useUnreadNotificationCount();
+    const { data: unreadMessageCount } = useUnreadMessageCount(activePet?.id);
     const { data: pendingMatches } = usePendingMatches(activePet?.id);
+    const [isCreatePostOpen, setIsCreatePostOpen] = useState(false);
 
     const hasNotifications = (unreadCount > 0) || (pendingMatches && pendingMatches.length > 0);
 
@@ -23,7 +27,7 @@ export function MobileHeader() {
                         {import.meta.env.VITE_APP_NAME || 'PetMet'}
                     </span>
                     <div className="flex items-center gap-2">
-                        <CreatePostModal />
+                        <CreatePostModal open={isCreatePostOpen} onOpenChange={setIsCreatePostOpen} />
                         <Button
                             variant="ghost"
                             size="icon"
@@ -35,8 +39,16 @@ export function MobileHeader() {
                                 <span className="absolute top-2 right-2 h-2 w-2 rounded-full bg-destructive animate-pulse" />
                             )}
                         </Button>
-                        <Button variant="ghost" size="icon" className="relative">
+                        <Button
+                            variant="ghost"
+                            size="icon"
+                            className="relative"
+                            onClick={() => navigate('/app/messages')}
+                        >
                             <MessageCircle className="h-5 w-5" />
+                            {unreadMessageCount > 0 && (
+                                <span className="absolute top-2 right-2 h-2 w-2 rounded-full bg-destructive animate-pulse" />
+                            )}
                         </Button>
                     </div>
                 </div>

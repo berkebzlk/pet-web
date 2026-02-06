@@ -239,5 +239,17 @@
         "markAllRead": "Tümünü okundu işaretle",
         "empty": "Henüz bildirim yok",
         "matchRequests": "Eşleşme İstekleri"
+    },
+    "message": {
+        "title": "Mesajlar",
+        "send": "Gönder",
+        "placeholder": "Bir mesaj yaz...",
+        "noMessages": "Henüz mesaj yok. Merhaba de!",
+        "errorSending": "Mesaj gönderilirken hata oluştu",
+        "receiver_pet_id": "Alıcı Pet",
+        "content": "Mesaj İçeriği",
+        "inbox": "Gelen Kutusu",
+        "noConversations": "Henüz sohbet yok. Bağlantı kurmaya başla!",
+        "you": "Sen"
     }
 }

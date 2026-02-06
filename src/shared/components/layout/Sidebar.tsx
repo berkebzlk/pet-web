@@ -23,7 +23,7 @@ export function Sidebar() {
     const navigate = useNavigate();
     const location = useLocation();
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-    const longPressTimer = useRef<NodeJS.Timeout | null>(null);
+    const longPressTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
     const isLongPress = useRef(false);
 
     const handleStart = () => {
@@ -61,9 +61,9 @@ export function Sidebar() {
             label: t('nav.match'),
         },
         {
-            to: '/app/matches',
+            to: '/app/messages',
             icon: Inbox,
-            label: t('match.myMatches'),
+            label: t('message.inbox'),
         },
         {
             to: '/app/services',
