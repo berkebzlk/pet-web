@@ -25,8 +25,14 @@ export function ActivePetProvider({ children }: { children: ReactNode }) {
 
             if (savedPet) {
                 setActivePet(savedPet);
+                // Ensure it's in sync (e.g. if we just recovered it but storage event didn't fire?)
+                // Actually if it's already in storage, we are good.
             } else {
-                setActivePet(pets[0]);
+                // Auto-select first pet AND persist it
+                const firstPet = pets[0];
+                setActivePet(firstPet);
+                localStorage.setItem('activePetId', String(firstPet.id));
+                window.dispatchEvent(new Event('activePetChanged'));
             }
         }
     }, [isLoading, pets, activePet]);
