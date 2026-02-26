@@ -5,9 +5,11 @@ import { ActivePetProvider } from '@/modules/pet/context/ActivePetContext';
 
 import { MobileHeader } from './MobileHeader';
 import { useMessageListener } from '@/modules/message/hooks/useMessageListener';
+import { useMatchNotifications } from '@/modules/match/hooks/useMatchNotifications';
 
 function AppLayoutContent() {
     useMessageListener();
+    useMatchNotifications();
 
     return (
         <div className="flex min-h-screen bg-background">
