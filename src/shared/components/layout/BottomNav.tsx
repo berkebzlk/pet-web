@@ -125,7 +125,10 @@ export function BottomNav() {
                         {pets.map((pet) => (
                             <DropdownMenuItem
                                 key={pet.id}
-                                onClick={() => setActivePet(pet)}
+                                onClick={() => {
+                                    setActivePet(pet);
+                                    window.location.reload();
+                                }}
                                 className="flex items-center justify-between"
                             >
                                 <div className="flex items-center gap-2">

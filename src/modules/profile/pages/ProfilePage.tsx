@@ -97,7 +97,10 @@ export function ProfilePage() {
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="start" className="w-56">
                         {pets.map((pet: Pet) => (
-                            <DropdownMenuItem key={pet.id} onClick={() => setActivePet(pet.id)}>
+                            <DropdownMenuItem key={pet.id} onClick={() => {
+                                setActivePet(pet.id);
+                                window.location.reload();
+                            }}>
                                 <div className="flex items-center gap-2 w-full">
                                     <div className="w-6 h-6 rounded-full overflow-hidden bg-muted">
                                         {pet.image ? (
