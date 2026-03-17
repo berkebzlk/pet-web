@@ -11,7 +11,10 @@
         "search": "Ara",
         "noResults": "Sonuç bulunamadı",
         "prev": "Önceki",
-        "next": "Sonraki"
+        "next": "Sonraki",
+        "allGenders": "Tüm Cinsiyetler",
+        "male": "Erkek",
+        "female": "Dişi"
     },
     "landing": {
         "hero": {
@@ -85,6 +88,7 @@
         "care": "Takvim",
         "feed": "Akış",
         "discover": "Keşfet",
+        "breeding": "Çiftleşme",
         "profile": "Profil"
     },
     "match": {
@@ -251,5 +255,25 @@
         "inbox": "Gelen Kutusu",
         "noConversations": "Henüz sohbet yok. Bağlantı kurmaya başla!",
         "you": "Sen"
+    },
+    "breeding": {
+        "dashboard": "Çiftleşme",
+        "activeProfile": "Aktif Profil",
+        "requireActivePet": "Çiftleşme özelliklerini görmek için lütfen bir pet seçin.",
+        "receivedRequests": "Gelen İstekler",
+        "sentRequests": "Gönderilen İstekler",
+        "connections": "Eşleşmeler",
+        "discoverMates": "Eş Bul",
+        "noPetsFound": "Şu an için uygun bir pet bulunamadı.",
+        "notNeutered": "Kısır Değil",
+        "sendRequest": "Çiftleşme İsteği Gönder",
+        "viewSocialProfile": "Sosyal Profilini Gör",
+        "requestSent": "Çiftleşme isteği gönderildi!",
+        "requestFailed": "İstek gönderilirken hata oluştu.",
+        "requestAccepted": "İstek kabul edildi! Artık mesajlaşabilirsiniz.",
+        "requestRejected": "İstek reddedildi.",
+        "requestCancelled": "İstek iptal edildi.",
+        "cancelRequest": "İstek iptal et",
+        "excludeConnected": "İstek Gönderilen/Eşleşilenleri Gizle"
     }
 }

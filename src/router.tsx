@@ -28,6 +28,7 @@ import { ServicesPage } from './modules/services/pages/ServicesPage';
 import { CarePage } from './modules/care/pages/CarePage';
 import { PostFeedPage } from './modules/post/pages/PostFeedPage';
 import DiscoverPage from './modules/discover/pages/DiscoverPage';
+import { breedingRoutes } from './modules/breeding/routes';
 
 import { RootLayout } from './shared/components/layout/RootLayout';
 
@@ -157,6 +158,10 @@ export const router = createBrowserRouter([
                                 element: <ChatPage />,
                             },
                             ...matchRoutes,
+                            {
+                                path: 'breeding',
+                                children: breedingRoutes,
+                            },
                             {
                                 path: 'services',
                                 element: <ServicesPage />,

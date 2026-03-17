@@ -11,7 +11,10 @@
         "search": "Search",
         "noResults": "No results found",
         "prev": "Previous",
-        "next": "Next"
+        "next": "Next",
+        "allGenders": "All Genders",
+        "male": "Male",
+        "female": "Female"
     },
     "landing": {
         "hero": {
@@ -85,6 +88,7 @@
         "care": "Care",
         "feed": "Feed",
         "discover": "Discover",
+        "breeding": "Breeding",
         "profile": "Profile"
     },
     "match": {
@@ -251,5 +255,25 @@
         "inbox": "Inbox",
         "noConversations": "No conversations yet. Start connecting!",
         "you": "You"
+    },
+    "breeding": {
+        "dashboard": "Breeding Dashboard",
+        "activeProfile": "Active Profile",
+        "requireActivePet": "Please select a pet to view breeding features.",
+        "receivedRequests": "Received Requests",
+        "sentRequests": "Sent Requests",
+        "connections": "Connections",
+        "discoverMates": "Discover Mates",
+        "noPetsFound": "No suitable pets found at the moment.",
+        "notNeutered": "Not Neutered",
+        "sendRequest": "Send Breeding Request",
+        "viewSocialProfile": "View Social Profile",
+        "requestSent": "Breeding request sent!",
+        "requestFailed": "Failed to send request.",
+        "requestAccepted": "Breeding request accepted! You can now message them.",
+        "requestRejected": "Breeding request rejected.",
+        "requestCancelled": "Breeding request cancelled.",
+        "cancelRequest": "Cancel Request",
+        "excludeConnected": "Hide Requested/Connected"
     }
 }

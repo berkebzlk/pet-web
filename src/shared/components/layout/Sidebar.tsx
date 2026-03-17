@@ -1,6 +1,6 @@
 import { NavLink, useNavigate, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Home, Heart, Store, Calendar, User, LogOut, Plus, Check, Inbox, Compass } from 'lucide-react';
+import { Home, Heart, Store, Calendar, User, LogOut, Plus, Check, Inbox, Compass, Baby } from 'lucide-react';
 import { cn } from '@/shared/lib/utils';
 import { Button } from '@/shared/components/ui/button';
 import { useLogout } from '@/modules/auth/hooks/useAuth';
@@ -59,6 +59,11 @@ export function Sidebar() {
             to: '/app/match',
             icon: Heart,
             label: t('nav.match'),
+        },
+        {
+            to: '/app/breeding',
+            icon: Baby,
+            label: t('nav.breeding'),
         },
         {
             to: '/app/messages',

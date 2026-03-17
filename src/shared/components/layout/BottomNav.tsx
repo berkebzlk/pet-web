@@ -1,6 +1,6 @@
 import { NavLink, useNavigate, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Home, Heart, Store, Calendar, User, Plus, Check, Compass } from 'lucide-react';
+import { Home, Heart, Store, Calendar, User, Plus, Check, Compass, Baby } from 'lucide-react';
 import { cn } from '@/shared/lib/utils';
 import { useActivePet } from '@/modules/pet/context/ActivePetContext';
 import { Avatar, AvatarFallback, AvatarImage } from '@/shared/components/ui/avatar';
@@ -57,6 +57,11 @@ export function BottomNav() {
             to: '/app/match',
             icon: Heart,
             label: t('nav.match'),
+        },
+        {
+            to: '/app/breeding',
+            icon: Baby,
+            label: t('nav.breeding'),
         },
         {
             to: '/app/services',
