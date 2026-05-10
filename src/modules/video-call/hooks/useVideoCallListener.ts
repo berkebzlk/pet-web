@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import { echo } from '@/shared/lib/echo';
 import { useAuthUser } from '@/modules/auth/hooks/useAuth';
 import { useVideoCallStore } from './useVideoCallStore';
@@ -6,6 +7,7 @@ import { useWebRTC } from './useWebRTC';
 import { toast } from 'sonner';
 
 export const useVideoCallListener = () => {
+    const { t } = useTranslation();
     const { data: user } = useAuthUser();
     const { setCurrentCall, setIsIncoming, currentCall, resetCall } = useVideoCallStore();
     const { handleOffer, handleAnswer, handleCandidate, cleanup, createOffer } = useWebRTC();
@@ -34,7 +36,7 @@ export const useVideoCallListener = () => {
         channel.listen('.video.call.initiated', (data: any) => {
             setCurrentCall(data.call);
             setIsIncoming(true);
-            toast.info(`Incoming video call from ${data.caller.name}`, { duration: 10000 });
+            toast.info(t('videoCall.incomingFrom', { name: data.caller.name }), { duration: 10000 });
         });
 
         channel.listen('.video.call.accepted', (data: any) => {
@@ -51,7 +53,7 @@ export const useVideoCallListener = () => {
 
         channel.listen('.video.call.ended', (data: any) => {
             handlersRef.current.cleanup();
-            toast.info('Call ended');
+            toast.info(t('videoCall.ended'));
         });
 
         channel.listen('.video.webrtc.signal', (data: any) => {

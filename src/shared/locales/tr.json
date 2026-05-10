@@ -275,5 +275,21 @@
         "requestCancelled": "İstek iptal edildi.",
         "cancelRequest": "İstek iptal et",
         "excludeConnected": "İstek Gönderilen/Eşleşilenleri Gizle"
+    },
+    "videoCall": {
+        "incoming": "Gelen arama...",
+        "waiting": "Bağlantı bekleniyor...",
+        "noAnswer": "Cevap yok",
+        "ended": "Arama sonlandı",
+        "cameraStarting": "Kamera başlatılıyor...",
+        "connecting": "Bağlanılıyor...",
+        "calling": "Aranıyor...",
+        "failedToAccept": "Arama kabul edilemedi",
+        "failedToStartMedia": "Kamera/mikrofon başlatılamadı",
+        "incomingFrom": "{{name}} tarafından gelen görüntülü arama",
+        "busy": "Kullanıcı meşgul",
+        "startCall": "Görüntülü Aramayı Başlat",
+        "starting": "Aranıyor...",
+        "errorStarting": "Arama başlatılamadı"
     }
 }

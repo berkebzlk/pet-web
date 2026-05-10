@@ -36,7 +36,7 @@ export function ChatPage() {
             setCurrentCall(call);
             toast.success(t('videoCall.starting'));
         } catch (error: any) {
-            toast.error(error.response?.data?.error || t('videoCall.errorStarting'));
+            toast.error(error.response?.data?.message || t('videoCall.errorStarting'));
         }
     };
 

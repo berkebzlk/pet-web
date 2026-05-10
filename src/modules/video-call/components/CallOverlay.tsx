@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useVideoCallStore } from '../hooks/useVideoCallStore';
 import { useWebRTC } from '../hooks/useWebRTC';
 import { videoCallService } from '../services/video-call.service';
@@ -8,6 +9,7 @@ import { cn } from '@/shared/lib/utils';
 import { toast } from 'sonner';
 
 export const CallOverlay = () => {
+    const { t } = useTranslation();
     const { 
         currentCall, 
         isIncoming, 
@@ -57,9 +59,9 @@ export const CallOverlay = () => {
             setIsIncoming(false); // Update UI state immediately
             await videoCallService.accept(currentCall.id);
             // Stream is already started by the useEffect below
-            toast.success('Connecting...');
+            toast.success(t('videoCall.connecting'));
         } catch (error) {
-            toast.error('Failed to accept call');
+            toast.error(t('videoCall.failedToAccept'));
             cleanup();
         }
     };
@@ -74,7 +76,7 @@ export const CallOverlay = () => {
         
         if (currentCall && !remoteStream) {
             timeout = setTimeout(() => {
-                toast.info('No answer');
+                toast.info(t('videoCall.noAnswer'));
                 handleEnd();
             }, 30000);
         }
@@ -82,7 +84,7 @@ export const CallOverlay = () => {
         return () => {
             if (timeout) clearTimeout(timeout);
         };
-    }, [currentCall, remoteStream, handleEnd]);
+    }, [currentCall, remoteStream, handleEnd, t]);
 
     // Start local stream immediately for everyone to allow preview/toggles
     useEffect(() => {
@@ -123,7 +125,7 @@ export const CallOverlay = () => {
                             <Phone className="w-10 h-10 text-indigo-400" />
                         </div>
                         <div className="text-xl font-medium tracking-wide">
-                            {isIncoming ? 'Incoming Call...' : 'Waiting for connection...'}
+                            {isIncoming ? t('videoCall.incoming') : t('videoCall.waiting')}
                         </div>
                     </div>
                 )}
@@ -146,7 +148,7 @@ export const CallOverlay = () => {
                     />
                 ) : (
                     <div className="w-full h-full flex items-center justify-center text-white/50 italic bg-slate-900">
-                        Camera Starting...
+                        {t('videoCall.cameraStarting')}
                     </div>
                 )}
                 {/* Overlay when video is off */}

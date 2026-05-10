@@ -275,5 +275,21 @@
         "requestCancelled": "Breeding request cancelled.",
         "cancelRequest": "Cancel Request",
         "excludeConnected": "Hide Requested/Connected"
+    },
+    "videoCall": {
+        "incoming": "Incoming Call...",
+        "waiting": "Waiting for connection...",
+        "noAnswer": "No answer",
+        "ended": "Call ended",
+        "cameraStarting": "Camera Starting...",
+        "connecting": "Connecting...",
+        "calling": "Calling...",
+        "failedToAccept": "Failed to accept call",
+        "failedToStartMedia": "Failed to start camera/mic",
+        "incomingFrom": "Incoming video call from {{name}}",
+        "busy": "User is busy",
+        "startCall": "Start Video Call",
+        "starting": "Calling...",
+        "errorStarting": "Could not start call"
     }
 }
