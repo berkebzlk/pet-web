@@ -8,6 +8,7 @@ import { useMessageListener } from '@/modules/message/hooks/useMessageListener';
 import { useMatchNotifications } from '@/modules/match/hooks/useMatchNotifications';
 
 import { useVideoCallListener } from '@/modules/video-call/hooks/useVideoCallListener';
+import { CallOverlay } from '@/modules/video-call/components/CallOverlay';
 
 function AppLayoutContent() {
     useMessageListener();
@@ -16,6 +17,7 @@ function AppLayoutContent() {
 
     return (
         <div className="flex min-h-screen bg-background">
+            <CallOverlay />
             {/* Desktop Sidebar */}
             <Sidebar />
 
