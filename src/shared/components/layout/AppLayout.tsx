@@ -7,9 +7,12 @@ import { MobileHeader } from './MobileHeader';
 import { useMessageListener } from '@/modules/message/hooks/useMessageListener';
 import { useMatchNotifications } from '@/modules/match/hooks/useMatchNotifications';
 
+import { useVideoCallListener } from '@/modules/video-call/hooks/useVideoCallListener';
+
 function AppLayoutContent() {
     useMessageListener();
     useMatchNotifications();
+    useVideoCallListener();
 
     return (
         <div className="flex min-h-screen bg-background">
