@@ -53,26 +53,26 @@ export function BottomNav() {
             icon: Compass,
             label: t('nav.discover'),
         },
-        {
-            to: '/app/match',
-            icon: Heart,
-            label: t('nav.match'),
-        },
+        // {
+        //     to: '/app/match',
+        //     icon: Heart,
+        //     label: t('nav.match'),
+        // },
         {
             to: '/app/breeding',
             icon: Baby,
             label: t('nav.breeding'),
         },
-        {
-            to: '/app/services',
-            icon: Store,
-            label: t('nav.services'),
-        },
-        {
-            to: '/app/care',
-            icon: Calendar,
-            label: t('nav.care'),
-        },
+        // {
+        //     to: '/app/services',
+        //     icon: Store,
+        //     label: t('nav.services'),
+        // },
+        // {
+        //     to: '/app/care',
+        //     icon: Calendar,
+        //     label: t('nav.care'),
+        // },
     ];
 
     return (
