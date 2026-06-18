@@ -12,13 +12,15 @@ interface CommentListProps {
 
 export function CommentList({ post }: CommentListProps) {
     const { i18n } = useTranslation();
+    const isClinicPost = post.pet?.isClinic || !!post.veterinary_profile_id;
+
     const {
         data,
         fetchNextPage,
         hasNextPage,
         isFetchingNextPage,
         isLoading
-    } = usePostComments(post.id);
+    } = usePostComments(isClinicPost ? 0 : post.id);
 
     const comments = data?.pages.flatMap(page => page.data) || [];
 
@@ -45,53 +47,57 @@ export function CommentList({ post }: CommentListProps) {
                 </div>
             )}
 
-            {/* Comments */}
-            {isLoading ? (
-                <div className="flex justify-center py-4">
-                    <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
-                </div>
-            ) : comments.length > 0 ? (
-                <div className="space-y-4">
-                    {comments.map((comment) => (
-                        <div key={comment.id} className="flex gap-3">
-                            <Avatar className="h-8 w-8 shrink-0">
-                                <AvatarImage src={comment.pet?.image || undefined} />
-                                <AvatarFallback>{comment.pet?.name?.[0]}</AvatarFallback>
-                            </Avatar>
-                            <div className="flex-1 space-y-1">
-                                <div className="text-sm">
-                                    <span className="font-semibold mr-2">{comment.pet?.username || comment.pet?.name}</span>
-                                    {comment.content}
-                                </div>
-                                <p className="text-xs text-muted-foreground">
-                                    {comment.created_at && !isNaN(new Date(comment.created_at).getTime())
-                                        ? formatDistanceToNow(new Date(comment.created_at), { addSuffix: true, locale: i18n.language === 'tr' ? tr : enUS })
-                                        : ''}
-                                </p>
-                            </div>
+            {/* Comments (only if NOT a clinic post) */}
+            {!isClinicPost && (
+                <>
+                    {isLoading ? (
+                        <div className="flex justify-center py-4">
+                            <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
                         </div>
-                    ))}
+                    ) : comments.length > 0 ? (
+                        <div className="space-y-4">
+                            {comments.map((comment) => (
+                                <div key={comment.id} className="flex gap-3">
+                                    <Avatar className="h-8 w-8 shrink-0">
+                                        <AvatarImage src={comment.pet?.image || undefined} />
+                                        <AvatarFallback>{comment.pet?.name?.[0]}</AvatarFallback>
+                                    </Avatar>
+                                    <div className="flex-1 space-y-1">
+                                        <div className="text-sm">
+                                            <span className="font-semibold mr-2">{comment.pet?.username || comment.pet?.name}</span>
+                                            {comment.content}
+                                        </div>
+                                        <p className="text-xs text-muted-foreground">
+                                            {comment.created_at && !isNaN(new Date(comment.created_at).getTime())
+                                                ? formatDistanceToNow(new Date(comment.created_at), { addSuffix: true, locale: i18n.language === 'tr' ? tr : enUS })
+                                                : ''}
+                                        </p>
+                                    </div>
+                                </div>
+                            ))}
 
-                    {hasNextPage && (
-                        <div className="flex justify-center pt-2">
-                            <button
-                                onClick={() => fetchNextPage()}
-                                disabled={isFetchingNextPage}
-                                className="text-xs text-muted-foreground hover:text-foreground transition-colors"
-                            >
-                                {isFetchingNextPage ? (
-                                    <Loader2 className="h-4 w-4 animate-spin" />
-                                ) : (
-                                    "Load more comments"
-                                )}
-                            </button>
+                            {hasNextPage && (
+                                <div className="flex justify-center pt-2">
+                                    <button
+                                        onClick={() => fetchNextPage()}
+                                        disabled={isFetchingNextPage}
+                                        className="text-xs text-muted-foreground hover:text-foreground transition-colors"
+                                    >
+                                        {isFetchingNextPage ? (
+                                            <Loader2 className="h-4 w-4 animate-spin" />
+                                        ) : (
+                                            "Load more comments"
+                                        )}
+                                    </button>
+                                </div>
+                            )}
+                        </div>
+                    ) : (
+                        <div className="text-center text-muted-foreground text-sm py-8">
+                            No comments yet.
                         </div>
                     )}
-                </div>
-            ) : (
-                <div className="text-center text-muted-foreground text-sm py-8">
-                    No comments yet.
-                </div>
+                </>
             )}
         </div>
     );

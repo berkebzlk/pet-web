@@ -38,6 +38,7 @@ export interface Pet {
         name: string;
         email: string;
     };
+    isClinic?: boolean;
     createdAt: string;
     updatedAt: string;
 }

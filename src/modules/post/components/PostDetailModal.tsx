@@ -147,7 +147,7 @@ export function PostDetailModal({ postId, open, onOpenChange, onNext, onPrev, ha
                                     <div className="flex items-center gap-3">
                                         <Avatar className="h-8 w-8">
                                             <AvatarImage src={post.pet?.image || undefined} />
-                                            <AvatarFallback>{post.pet?.name[0]}</AvatarFallback>
+                                            <AvatarFallback>{post.pet?.name?.[0] || post.pet?.username?.[0] || '?'}</AvatarFallback>
                                         </Avatar>
                                         <span className="font-semibold text-sm">{post.pet?.username}</span>
                                     </div>
@@ -179,33 +179,37 @@ export function PostDetailModal({ postId, open, onOpenChange, onNext, onPrev, ha
 
                                 {/* Actions */}
                                 <div className="p-4 border-t mt-auto">
-                                    <div className="flex items-center justify-between mb-4">
-                                        <div className="flex items-center gap-4">
-                                            <Button
-                                                variant="ghost"
-                                                size="icon"
-                                                className={post.is_liked ? "text-red-500 hover:text-red-600" : ""}
-                                                onClick={handleLike}
-                                            >
-                                                <Heart className={`h-6 w-6 ${post.is_liked ? "fill-current" : ""}`} />
-                                            </Button>
-                                            <Button variant="ghost" size="icon">
-                                                <MessageCircle className="h-6 w-6" />
-                                            </Button>
-                                            <Button variant="ghost" size="icon">
-                                                <Send className="h-6 w-6" />
-                                            </Button>
-                                        </div>
-                                        <Button
-                                            variant="ghost"
-                                            size="icon"
-                                            className={post.is_saved ? "text-primary" : ""}
-                                            onClick={handleSave}
-                                        >
-                                            <Bookmark className={`h-6 w-6 ${post.is_saved ? "fill-current" : ""}`} />
-                                        </Button>
-                                    </div>
-                                    <div className="font-semibold text-sm mb-2">{post.likes_count} {t('post.likes')}</div>
+                                    {!(post.pet?.isClinic || !!post.veterinary_profile_id) && (
+                                        <>
+                                            <div className="flex items-center justify-between mb-4">
+                                                <div className="flex items-center gap-4">
+                                                    <Button
+                                                        variant="ghost"
+                                                        size="icon"
+                                                        className={post.is_liked ? "text-red-500 hover:text-red-600" : ""}
+                                                        onClick={handleLike}
+                                                    >
+                                                        <Heart className={`h-6 w-6 ${post.is_liked ? "fill-current" : ""}`} />
+                                                    </Button>
+                                                    <Button variant="ghost" size="icon">
+                                                        <MessageCircle className="h-6 w-6" />
+                                                    </Button>
+                                                    <Button variant="ghost" size="icon">
+                                                        <Send className="h-6 w-6" />
+                                                    </Button>
+                                                </div>
+                                                <Button
+                                                    variant="ghost"
+                                                    size="icon"
+                                                    className={post.is_saved ? "text-primary" : ""}
+                                                    onClick={handleSave}
+                                                >
+                                                    <Bookmark className={`h-6 w-6 ${post.is_saved ? "fill-current" : ""}`} />
+                                                </Button>
+                                            </div>
+                                            <div className="font-semibold text-sm mb-2">{post.likes_count} {t('post.likes')}</div>
+                                        </>
+                                    )}
                                     <p className="text-xs text-muted-foreground uppercase mb-4">
                                         {post.created_at && !isNaN(new Date(post.created_at).getTime())
                                             ? formatDistanceToNow(new Date(post.created_at), { addSuffix: true, locale: i18n.language === 'tr' ? tr : enUS })
@@ -213,7 +217,9 @@ export function PostDetailModal({ postId, open, onOpenChange, onNext, onPrev, ha
                                     </p>
 
                                     {/* Comment Input */}
-                                    <CommentInput postId={post.id} onCommentAdded={handleCommentAdded} />
+                                    {!(post.pet?.isClinic || !!post.veterinary_profile_id) && (
+                                        <CommentInput postId={post.id} onCommentAdded={handleCommentAdded} />
+                                    )}
                                 </div>
                             </div>
                         </div>

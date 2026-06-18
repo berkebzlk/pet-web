@@ -89,7 +89,8 @@
         "feed": "Feed",
         "discover": "Discover",
         "breeding": "Breeding",
-        "profile": "Profile"
+        "profile": "Profile",
+        "veterinarians": "Veterinarians"
     },
     "match": {
         "clearFilters": "Clear Filters",

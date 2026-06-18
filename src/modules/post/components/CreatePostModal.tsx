@@ -23,7 +23,7 @@ export function CreatePostModal({ open, onOpenChange }: CreatePostModalProps) {
     const [selectedImage, setSelectedImage] = useState<File | null>(null);
     const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
-    const { activePetId } = useActivePet();
+    const { activeProfileType, activeProfileId } = useActivePet();
     const createPost = useCreatePost();
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -43,13 +43,20 @@ export function CreatePostModal({ open, onOpenChange }: CreatePostModalProps) {
     };
 
     const onSubmit = (values: z.infer<typeof formSchema>) => {
-        if (!selectedImage || !activePetId) return;
+        if (!selectedImage || !activeProfileId) return;
 
-        createPost.mutate({
-            pet_id: activePetId,
+        const payload: any = {
             image: selectedImage,
             description: values.description,
-        }, {
+        };
+
+        if (activeProfileType === 'veterinary') {
+            payload.veterinary_profile_id = activeProfileId;
+        } else {
+            payload.pet_id = activeProfileId;
+        }
+
+        createPost.mutate(payload, {
             onSuccess: () => {
                 onOpenChange(false);
                 form.reset();

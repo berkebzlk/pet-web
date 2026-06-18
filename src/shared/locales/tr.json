@@ -89,7 +89,8 @@
         "feed": "Akış",
         "discover": "Keşfet",
         "breeding": "Çiftleşme",
-        "profile": "Profil"
+        "profile": "Profil",
+        "veterinarians": "Veterinerler"
     },
     "match": {
         "clearFilters": "Filtreleri Temizle",

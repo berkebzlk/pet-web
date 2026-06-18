@@ -12,6 +12,7 @@ export const useCreatePost = () => {
         onSuccess: (data) => {
             toast.success(data.message);
             queryClient.invalidateQueries({ queryKey: ['posts'] });
+            queryClient.invalidateQueries({ queryKey: ['veterinaryPosts'] });
         },
         onError: (error: any) => {
             toast.error(error.response?.data?.message || "Failed to create post");
@@ -139,6 +140,7 @@ export const useDeletePost = () => {
         mutationFn: (id: number) => postService.delete(id),
         onSuccess: (data) => {
             queryClient.invalidateQueries({ queryKey: ['posts'] });
+            queryClient.invalidateQueries({ queryKey: ['veterinaryPosts'] });
             toast.success(data.message);
         }
     });

@@ -29,6 +29,8 @@ import { CarePage } from './modules/care/pages/CarePage';
 import { PostFeedPage } from './modules/post/pages/PostFeedPage';
 import DiscoverPage from './modules/discover/pages/DiscoverPage';
 import { breedingRoutes } from './modules/breeding/routes';
+import { VeterinariansPage } from './modules/veterinary/pages/VeterinariansPage';
+import { VeterinaryDetailPage } from './modules/veterinary/pages/VeterinaryDetailPage';
 
 import { RootLayout } from './shared/components/layout/RootLayout';
 
@@ -181,6 +183,14 @@ export const router = createBrowserRouter([
                             {
                                 path: 'discover',
                                 element: <DiscoverPage />,
+                            },
+                            {
+                                path: 'veterinarians',
+                                element: <VeterinariansPage />,
+                            },
+                            {
+                                path: 'veterinarians/:id',
+                                element: <VeterinaryDetailPage />,
                             },
                         ],
                     },

@@ -3,6 +3,7 @@ import type { Pet } from "../../pet/types/pet.types";
 export interface Post {
     id: number;
     pet_id: number;
+    veterinary_profile_id?: number | null;
     image_url: string;
     description: string | null;
     created_at: string;
@@ -29,7 +30,8 @@ export interface Comment {
 }
 
 export interface CreatePostDTO {
-    pet_id: number;
+    pet_id?: number;
+    veterinary_profile_id?: number;
     image: File;
     description?: string;
 }

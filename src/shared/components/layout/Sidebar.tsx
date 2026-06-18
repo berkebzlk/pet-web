@@ -1,9 +1,9 @@
 import { NavLink, useNavigate, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Home, Heart, Store, Calendar, User, LogOut, Plus, Check, Inbox, Compass, Baby } from 'lucide-react';
+import { Home, Heart, Store, Calendar, User, LogOut, Plus, Check, Inbox, Compass, Baby, Stethoscope } from 'lucide-react';
 import { cn } from '@/shared/lib/utils';
 import { Button } from '@/shared/components/ui/button';
-import { useLogout } from '@/modules/auth/hooks/useAuth';
+import { useLogout, useAuthUser } from '@/modules/auth/hooks/useAuth';
 import { useActivePet } from '@/modules/pet/context/ActivePetContext';
 import { Avatar, AvatarFallback, AvatarImage } from '@/shared/components/ui/avatar';
 import {
@@ -15,14 +15,18 @@ import {
 } from '@/shared/components/ui/dropdown-menu';
 
 import { useState, useRef } from 'react';
+import { Modal } from '@/shared/components/ui/modal';
+import { VeterinaryForm } from '@/modules/veterinary/components/VeterinaryForm';
 
 export function Sidebar() {
     const { t } = useTranslation();
     const { mutate: logout } = useLogout();
     const { activePet, setActivePet, pets } = useActivePet();
+    const { data: user } = useAuthUser();
     const navigate = useNavigate();
     const location = useLocation();
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const [isAddVetOpen, setIsAddVetOpen] = useState(false);
     const longPressTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
     const isLongPress = useRef(false);
 
@@ -43,7 +47,15 @@ export function Sidebar() {
         }
     };
 
-    const navItems = [
+    const isClinicActive = activePet && 'clinicName' in activePet;
+
+    const navItems = isClinicActive ? [
+        {
+            to: '/app/veterinarians',
+            icon: Stethoscope,
+            label: t('nav.veterinarians'),
+        },
+    ] : [
         {
             to: '/app',
             icon: Home,
@@ -55,11 +67,6 @@ export function Sidebar() {
             icon: Compass,
             label: t('nav.discover'),
         },
-        // {
-        //     to: '/app/match',
-        //     icon: Heart,
-        //     label: t('nav.match'),
-        // },
         {
             to: '/app/breeding',
             icon: Baby,
@@ -70,16 +77,11 @@ export function Sidebar() {
             icon: Inbox,
             label: t('message.inbox'),
         },
-        // {
-        //     to: '/app/services',
-        //     icon: Store,
-        //     label: t('nav.services'),
-        // },
-        // {
-        //     to: '/app/care',
-        //     icon: Calendar,
-        //     label: t('nav.care'),
-        // },
+        {
+            to: '/app/veterinarians',
+            icon: Stethoscope,
+            label: t('nav.veterinarians'),
+        },
     ];
 
     return (
@@ -129,8 +131,14 @@ export function Sidebar() {
                             }}
                         >
                             <Avatar className="h-6 w-6">
-                                <AvatarImage src={activePet?.image || undefined} className="object-cover" />
-                                <AvatarFallback>{activePet?.name?.[0] || <User className="h-4 w-4" />}</AvatarFallback>
+                                <AvatarImage src={(activePet && 'clinicName' in activePet) ? activePet.profilePhoto : activePet?.image || undefined} className="object-cover" />
+                                <AvatarFallback>
+                                    {(activePet && 'clinicName' in activePet) ? (
+                                        <Stethoscope className="h-4 w-4 text-teal-600" />
+                                    ) : activePet?.name?.[0] || (
+                                        <User className="h-4 w-4" />
+                                    )}
+                                </AvatarFallback>
                             </Avatar>
                             <span>{t('nav.profile')}</span>
                         </div>
@@ -154,16 +162,62 @@ export function Sidebar() {
                                     </Avatar>
                                     <span className="truncate max-w-[120px]">{pet.name}</span>
                                 </div>
-                                {activePet?.id === pet.id && <Check className="h-4 w-4 text-primary" />}
+                                {activePet && !('clinicName' in activePet) && activePet.id === pet.id && <Check className="h-4 w-4 text-primary" />}
                             </DropdownMenuItem>
                         ))}
                         <DropdownMenuItem onClick={() => navigate('/app/pets/new')}>
                             <Plus className="mr-2 h-4 w-4" />
                             {t('pet.add')}
                         </DropdownMenuItem>
+
+                        {user?.veterinaryProfile ? (
+                            <>
+                                <hr className="my-1 border-t" />
+                                <DropdownMenuLabel>Klinik</DropdownMenuLabel>
+                                <DropdownMenuItem
+                                    onClick={() => {
+                                        setActivePet(user.veterinaryProfile);
+                                        window.location.reload();
+                                    }}
+                                    className="flex items-center justify-between"
+                                >
+                                    <div className="flex items-center gap-2">
+                                        <Avatar className="h-6 w-6">
+                                            <AvatarImage src={user.veterinaryProfile.profilePhoto || undefined} className="object-cover" />
+                                            <AvatarFallback>
+                                                <Stethoscope className="h-4 w-4 text-teal-600" />
+                                            </AvatarFallback>
+                                        </Avatar>
+                                        <span className="truncate max-w-[120px]">{user.veterinaryProfile.clinicName}</span>
+                                    </div>
+                                    {activePet && 'clinicName' in activePet && activePet.id === user.veterinaryProfile.id && <Check className="h-4 w-4 text-teal-600" />}
+                                </DropdownMenuItem>
+                            </>
+                        ) : (
+                            <>
+                                <hr className="my-1 border-t" />
+                                <DropdownMenuItem onClick={() => setIsAddVetOpen(true)} className="text-teal-600 cursor-pointer font-semibold">
+                                    <Stethoscope className="mr-2 h-4 w-4 text-teal-600" />
+                                    Veteriner Profili Oluştur
+                                </DropdownMenuItem>
+                            </>
+                        )}
                     </DropdownMenuContent>
                 </DropdownMenu>
             </nav>
+
+            <Modal
+                isOpen={isAddVetOpen}
+                onClose={() => setIsAddVetOpen(false)}
+                title="Veteriner Profili Oluştur"
+            >
+                <VeterinaryForm
+                    onSuccess={() => {
+                        setIsAddVetOpen(false);
+                        window.location.reload();
+                    }}
+                />
+            </Modal>
 
             <div className="p-4 border-t">
                 <Button

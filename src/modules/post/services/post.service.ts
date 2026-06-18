@@ -4,7 +4,12 @@ import type { CreatePostDTO, Post, Comment } from "../types/post.types";
 export const postService = {
     create: async (data: CreatePostDTO): Promise<any> => {
         const formData = new FormData();
-        formData.append('pet_id', data.pet_id.toString());
+        if (data.pet_id) {
+            formData.append('pet_id', data.pet_id.toString());
+        }
+        if (data.veterinary_profile_id) {
+            formData.append('veterinary_profile_id', data.veterinary_profile_id.toString());
+        }
         formData.append('image', data.image);
         if (data.description) {
             formData.append('description', data.description);

@@ -1,10 +1,11 @@
 import { createContext, useContext, useState, useEffect, type ReactNode } from 'react';
 import { useMyPets } from '../hooks/usePets';
 import { type Pet } from '../types/pet.types';
+import { useAuthUser } from '@/modules/auth/hooks/useAuth';
 
 interface ActivePetContextType {
-    activePet: Pet | null;
-    setActivePet: (pet: Pet | null) => void;
+    activePet: any; // Pet | VeterinaryProfile | null
+    setActivePet: (profile: any) => void;
     isLoading: boolean;
     pets: Pet[];
 }
@@ -12,38 +13,60 @@ interface ActivePetContextType {
 const ActivePetContext = createContext<ActivePetContextType | undefined>(undefined);
 
 export function ActivePetProvider({ children }: { children: ReactNode }) {
-    const { data, isLoading } = useMyPets();
-    const [activePet, setActivePet] = useState<Pet | null>(null);
+    const { data: petsData, isLoading: isPetsLoading } = useMyPets();
+    const { data: user, isLoading: isUserLoading } = useAuthUser();
+    const [activePet, setActivePet] = useState<any>(null);
 
-    const pets = data?.data?.data || [];
+    const pets = petsData?.data?.data || [];
+    const isLoading = isPetsLoading || isUserLoading;
 
     useEffect(() => {
-        if (!isLoading && pets.length > 0 && !activePet) {
-            // Try to recover from localStorage or default to first pet
-            const savedPetId = localStorage.getItem('activePetId');
-            const savedPet = pets.find((p: Pet) => p.id === Number(savedPetId));
+        if (!isLoading && !activePet) {
+            // Try to recover from localStorage
+            const savedProfileType = localStorage.getItem('activeProfileType') || 'pet';
+            const savedProfileId = localStorage.getItem('activeProfileId') || localStorage.getItem('activePetId');
 
-            if (savedPet) {
-                setActivePet(savedPet);
-                // Ensure it's in sync (e.g. if we just recovered it but storage event didn't fire?)
-                // Actually if it's already in storage, we are good.
-            } else {
-                // Auto-select first pet AND persist it
-                const firstPet = pets[0];
-                setActivePet(firstPet);
-                localStorage.setItem('activePetId', String(firstPet.id));
-                window.dispatchEvent(new Event('activePetChanged'));
+            if (savedProfileType === 'veterinary' && user?.veterinaryProfile && String(user.veterinaryProfile.id) === savedProfileId) {
+                setActivePet(user.veterinaryProfile);
+            } else if (pets.length > 0) {
+                const savedPet = pets.find((p: Pet) => p.id === Number(savedProfileId));
+                if (savedPet) {
+                    setActivePet(savedPet);
+                } else {
+                    // Auto-select first pet
+                    const firstPet = pets[0];
+                    setActivePet(firstPet);
+                    localStorage.setItem('activeProfileType', 'pet');
+                    localStorage.setItem('activeProfileId', String(firstPet.id));
+                    localStorage.setItem('activePetId', String(firstPet.id));
+                }
+            } else if (user?.veterinaryProfile) {
+                // If user has no pets but has a clinic, auto-select clinic
+                setActivePet(user.veterinaryProfile);
+                localStorage.setItem('activeProfileType', 'veterinary');
+                localStorage.setItem('activeProfileId', String(user.veterinaryProfile.id));
             }
         }
-    }, [isLoading, pets, activePet]);
+    }, [isLoading, pets, user, activePet]);
 
-    const handleSetActivePet = (pet: Pet | null) => {
-        setActivePet(pet);
-        if (pet) {
-            localStorage.setItem('activePetId', String(pet.id));
+    const handleSetActivePet = (profile: any) => {
+        setActivePet(profile);
+        if (profile) {
+            if ('clinicName' in profile) {
+                localStorage.setItem('activeProfileType', 'veterinary');
+                localStorage.setItem('activeProfileId', String(profile.id));
+                localStorage.removeItem('activePetId'); // Clear old pet key to avoid confusion
+            } else {
+                localStorage.setItem('activeProfileType', 'pet');
+                localStorage.setItem('activeProfileId', String(profile.id));
+                localStorage.setItem('activePetId', String(profile.id)); // Maintain backward compatibility
+            }
         } else {
+            localStorage.removeItem('activeProfileType');
+            localStorage.removeItem('activeProfileId');
             localStorage.removeItem('activePetId');
         }
+        window.dispatchEvent(new Event('activePetChanged'));
     };
 
     return (
