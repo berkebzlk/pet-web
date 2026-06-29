@@ -46,4 +46,19 @@ export const veterinaryService = {
         const response = await api.get(`/veterinarians/${id}/posts`);
         return response.data;
     },
+
+    getCities: async (): Promise<string[]> => {
+        const response = await api.get('/veterinarians/cities');
+        return response.data.data;
+    },
+
+    getReviews: async (id: number): Promise<any[]> => {
+        const response = await api.get(`/veterinarians/${id}/reviews`);
+        return response.data.data;
+    },
+
+    addReview: async (id: number, data: { pet_id: number; rating: number; comment?: string }): Promise<any> => {
+        const response = await api.post(`/veterinarians/${id}/reviews`, data);
+        return response.data.data;
+    },
 };

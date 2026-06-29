@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import type { Post } from "../types/post.types";
 import { usePostComments } from "../hooks/usePosts";
 import { Loader2 } from "lucide-react";
+import { Link } from "react-router-dom";
 
 interface CommentListProps {
     post: Post;
@@ -12,15 +13,13 @@ interface CommentListProps {
 
 export function CommentList({ post }: CommentListProps) {
     const { i18n } = useTranslation();
-    const isClinicPost = post.pet?.isClinic || !!post.veterinary_profile_id;
-
     const {
         data,
         fetchNextPage,
         hasNextPage,
         isFetchingNextPage,
         isLoading
-    } = usePostComments(isClinicPost ? 0 : post.id);
+    } = usePostComments(post.id);
 
     const comments = data?.pages.flatMap(page => page.data) || [];
 
@@ -47,9 +46,8 @@ export function CommentList({ post }: CommentListProps) {
                 </div>
             )}
 
-            {/* Comments (only if NOT a clinic post) */}
-            {!isClinicPost && (
-                <>
+            {/* Comments */}
+            <>
                     {isLoading ? (
                         <div className="flex justify-center py-4">
                             <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
@@ -58,13 +56,17 @@ export function CommentList({ post }: CommentListProps) {
                         <div className="space-y-4">
                             {comments.map((comment) => (
                                 <div key={comment.id} className="flex gap-3">
-                                    <Avatar className="h-8 w-8 shrink-0">
-                                        <AvatarImage src={comment.pet?.image || undefined} />
-                                        <AvatarFallback>{comment.pet?.name?.[0]}</AvatarFallback>
-                                    </Avatar>
+                                    <Link to={`/app/profile/${comment.pet?.username}`}>
+                                        <Avatar className="h-8 w-8 shrink-0 cursor-pointer hover:opacity-80 transition-opacity">
+                                            <AvatarImage src={comment.pet?.image || undefined} />
+                                            <AvatarFallback>{comment.pet?.name?.[0]}</AvatarFallback>
+                                        </Avatar>
+                                    </Link>
                                     <div className="flex-1 space-y-1">
                                         <div className="text-sm">
-                                            <span className="font-semibold mr-2">{comment.pet?.username || comment.pet?.name}</span>
+                                            <Link to={`/app/profile/${comment.pet?.username}`} className="font-semibold mr-2 hover:underline">
+                                                {comment.pet?.username || comment.pet?.name}
+                                            </Link>
                                             {comment.content}
                                         </div>
                                         <p className="text-xs text-muted-foreground">
@@ -97,8 +99,7 @@ export function CommentList({ post }: CommentListProps) {
                             No comments yet.
                         </div>
                     )}
-                </>
-            )}
+            </>
         </div>
     );
 }

@@ -41,3 +41,36 @@ export const useVeterinaryPosts = (id: number) => {
         enabled: !!id,
     });
 };
+
+export const useVeterinaryCities = () => {
+    return useQuery({
+        queryKey: ['veterinaryCities'],
+        queryFn: () => veterinaryService.getCities(),
+    });
+};
+
+export const useVeterinaryReviews = (id: number) => {
+    return useQuery({
+        queryKey: ['veterinaryReviews', id],
+        queryFn: () => veterinaryService.getReviews(id),
+        enabled: !!id,
+    });
+};
+
+export const useAddVeterinaryReview = (id: number) => {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: (data: { pet_id: number; rating: number; comment?: string }) =>
+            veterinaryService.addReview(id, data),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['veterinaryReviews', id] });
+            queryClient.invalidateQueries({ queryKey: ['veterinaryProfile', id] });
+            queryClient.invalidateQueries({ queryKey: ['veterinarians'] });
+            toast.success('Değerlendirmeniz başarıyla kaydedildi');
+        },
+        onError: (error: any) => {
+            toast.error(error.response?.data?.message || 'Değerlendirme kaydedilemedi');
+        },
+    });
+};

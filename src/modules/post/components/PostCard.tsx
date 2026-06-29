@@ -42,10 +42,8 @@ export function PostCard({ post, onCommentClick, onPostUpdate }: PostCardProps) 
     const unsavePost = useUnsavePost();
 
     const { activePetId } = useActivePet();
-    const isClinicPost = post.pet?.isClinic || !!post.veterinary_profile_id;
 
     const handleLike = () => {
-        if (isClinicPost) return;
         if (!activePetId) {
             toast.error("Please select a pet first");
             return;
@@ -58,7 +56,6 @@ export function PostCard({ post, onCommentClick, onPostUpdate }: PostCardProps) 
     };
 
     const handleSave = () => {
-        if (isClinicPost) return;
         if (!activePetId) {
             toast.error("Please select a pet first");
             return;
@@ -99,44 +96,42 @@ export function PostCard({ post, onCommentClick, onPostUpdate }: PostCardProps) 
                 </div>
             </CardContent>
             <CardFooter className="flex flex-col items-start p-4 gap-3">
-                {!isClinicPost && (
-                    <div className="flex w-full items-center justify-between">
-                        <div className="flex items-center gap-4">
-                            <Button
-                                variant="ghost"
-                                size="sm"
-                                className={`gap-2 px-2 ${post.is_liked ? "text-red-500 hover:text-red-600" : "hover:text-red-500"}`}
-                                onClick={handleLike}
-                            >
-                                <Heart className={`h-6 w-6 ${post.is_liked ? "fill-current" : ""}`} />
-                                {post.likes_count > 0 && <span className="text-sm font-semibold">{post.likes_count}</span>}
-                            </Button>
-
-                            <Button
-                                variant="ghost"
-                                size="sm"
-                                className="gap-2 px-2"
-                                onClick={onCommentClick}
-                            >
-                                <MessageCircle className="h-6 w-6" />
-                                {post.comments_count > 0 && <span className="text-sm font-semibold">{post.comments_count}</span>}
-                            </Button>
-
-                            <Button variant="ghost" size="icon">
-                                <Send className="h-6 w-6" />
-                            </Button>
-                        </div>
+                <div className="flex w-full items-center justify-between">
+                    <div className="flex items-center gap-4">
+                        <Button
+                            variant="ghost"
+                            size="sm"
+                            className={`gap-2 px-2 ${post.is_liked ? "text-red-500 hover:text-red-600" : "hover:text-red-500"}`}
+                            onClick={handleLike}
+                        >
+                            <Heart className={`h-6 w-6 ${post.is_liked ? "fill-current" : ""}`} />
+                            {post.likes_count > 0 && <span className="text-sm font-semibold">{post.likes_count}</span>}
+                        </Button>
 
                         <Button
                             variant="ghost"
-                            size="icon"
-                            className={post.is_saved ? "text-primary" : ""}
-                            onClick={handleSave}
+                            size="sm"
+                            className="gap-2 px-2"
+                            onClick={onCommentClick}
                         >
-                            <Bookmark className={`h-6 w-6 ${post.is_saved ? "fill-current" : ""}`} />
+                            <MessageCircle className="h-6 w-6" />
+                            {post.comments_count > 0 && <span className="text-sm font-semibold">{post.comments_count}</span>}
+                        </Button>
+
+                        <Button variant="ghost" size="icon">
+                            <Send className="h-6 w-6" />
                         </Button>
                     </div>
-                )}
+
+                    <Button
+                        variant="ghost"
+                        size="icon"
+                        className={post.is_saved ? "text-primary" : ""}
+                        onClick={handleSave}
+                    >
+                        <Bookmark className={`h-6 w-6 ${post.is_saved ? "fill-current" : ""}`} />
+                    </Button>
+                </div>
                 {post.description && (
                     <div className="text-sm">
                         <span className="font-semibold mr-2">{post.pet?.username || post.pet?.name}</span>

@@ -53,8 +53,10 @@ export const useLikePost = (options?: { onSuccess?: () => void }) => {
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn: ({ id, petId }: { id: number, petId: number }) => postService.like(id, petId),
-        onSuccess: () => {
+        onSuccess: (data, variables) => {
             queryClient.invalidateQueries({ queryKey: ['posts'] });
+            queryClient.invalidateQueries({ queryKey: ['veterinaryPosts'] });
+            queryClient.invalidateQueries({ queryKey: ['post', variables.id] });
             options?.onSuccess?.();
         }
     });
@@ -64,8 +66,10 @@ export const useUnlikePost = (options?: { onSuccess?: () => void }) => {
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn: ({ id, petId }: { id: number, petId: number }) => postService.unlike(id, petId),
-        onSuccess: () => {
+        onSuccess: (data, variables) => {
             queryClient.invalidateQueries({ queryKey: ['posts'] });
+            queryClient.invalidateQueries({ queryKey: ['veterinaryPosts'] });
+            queryClient.invalidateQueries({ queryKey: ['post', variables.id] });
             options?.onSuccess?.();
         }
     });
@@ -77,6 +81,8 @@ export const useCommentPost = (options?: { onSuccess?: () => void }) => {
         mutationFn: ({ id, content, petId }: { id: number, content: string, petId: number }) => postService.comment(id, content, petId),
         onSuccess: (data, variables) => {
             queryClient.invalidateQueries({ queryKey: ['posts'] });
+            queryClient.invalidateQueries({ queryKey: ['veterinaryPosts'] });
+            queryClient.invalidateQueries({ queryKey: ['post', variables.id] });
             queryClient.invalidateQueries({ queryKey: ['comments', variables.id] });
             toast.success(data.message);
             options?.onSuccess?.();
@@ -116,8 +122,10 @@ export const useSavePost = () => {
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn: ({ id, petId }: { id: number, petId: number }) => postService.save(id, petId),
-        onSuccess: (data) => {
+        onSuccess: (data, variables) => {
             queryClient.invalidateQueries({ queryKey: ['posts'] });
+            queryClient.invalidateQueries({ queryKey: ['veterinaryPosts'] });
+            queryClient.invalidateQueries({ queryKey: ['post', variables.id] });
             toast.success(data.message);
         }
     });
@@ -127,8 +135,10 @@ export const useUnsavePost = () => {
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn: ({ id, petId }: { id: number, petId: number }) => postService.unsave(id, petId),
-        onSuccess: (data) => {
+        onSuccess: (data, variables) => {
             queryClient.invalidateQueries({ queryKey: ['posts'] });
+            queryClient.invalidateQueries({ queryKey: ['veterinaryPosts'] });
+            queryClient.invalidateQueries({ queryKey: ['post', variables.id] });
             toast.success(data.message);
         }
     });

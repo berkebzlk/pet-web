@@ -179,7 +179,7 @@ export function PostDetailModal({ postId, open, onOpenChange, onNext, onPrev, ha
 
                                 {/* Actions */}
                                 <div className="p-4 border-t mt-auto">
-                                    {!(post.pet?.isClinic || !!post.veterinary_profile_id) && (
+                                    {true && (
                                         <>
                                             <div className="flex items-center justify-between mb-4">
                                                 <div className="flex items-center gap-4">
@@ -217,7 +217,7 @@ export function PostDetailModal({ postId, open, onOpenChange, onNext, onPrev, ha
                                     </p>
 
                                     {/* Comment Input */}
-                                    {!(post.pet?.isClinic || !!post.veterinary_profile_id) && (
+                                    {true && (
                                         <CommentInput postId={post.id} onCommentAdded={handleCommentAdded} />
                                     )}
                                 </div>
