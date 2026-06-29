@@ -3,7 +3,6 @@ import { api } from "../../../shared/lib/api";
 export interface User {
     id: number;
     name: string;
-    username: string;
     image?: string;
 }
 
